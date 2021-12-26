@@ -7,7 +7,7 @@
 
   /*========== Colors ==========*/
   /* Change favorite color */
-  --hue-color: 250; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
+  --hue-color: 230; /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
 
   /* HSL color mode */
   --first-color: hsl(var(--hue-color), 69%, 61%);
@@ -275,14 +275,14 @@ img {
   margin-bottom: var(--mb-2);
 }
 .home__scroll {
-  /* display: none; */
+  display: none;
 }
 .home__scroll-button {
   color: var(--first-color);
   transition: 03s;
 }
 .home__scroll-button:hover {
-  transform: translateY(0.25rem);
+  transform: translateY(0.9rem);
 }
 .home__scroll-mouse {
   font-size: 2rem;
@@ -297,7 +297,29 @@ img {
   font-size: 1.25rem;
 }
 /*==================== BUTTONS ====================*/
+.button {
+  display: inline-block;
+  background-color: var(--first-color);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-weight: var(--font-medium);
+}
 
+.button:hover {
+  background-color: var(--first-color-alt);
+}
+
+.button__icon {
+  font-size: 1.25rem;
+  margin-left: var(--mb-0-5);
+  transition: 03s;
+}
+
+.button--flex {
+  display: inline-flex;
+  align-items: center;
+}
 /*==================== ABOUT ====================*/
 
 /*==================== SKILLS ====================*/

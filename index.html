@@ -109,8 +109,9 @@
                       
                   </div> 
                   <div class="home__data">
-                      <h1 class="home__title">Hi, I'am Azizbek</h1>
-                      <h3 class="home__subtitle">Web developer</h3>
+                      <h1 class="home__title">Hello, I'm <span id="typewriter" ></span></h1>
+
+                      <!-- <h3 class="home__subtitle">Web developer</h3> -->
                       <p class="home__description">High level experience in web design and development knowledge, producing quality work. </p>
                       <a href="#contact" class="button button--flex">
                         Contact Me <i class="uil uil-message button__icon"></i>
@@ -679,6 +680,14 @@
         window.onload = enableAutoplay();
         document.onclick = enableAutoplay();
 
-</script>        
+</script>
+<script src="js/typewriter.js"></script>
+<script type="text/javascript">
+    const instance = new Typewriter('#typewriter', {
+      strings: ['<span class="span-1">Azizbek</span> <span class="span-2">Umidjonov</span>' , '<span class="span-1">a</span> <span class="span-2">Web</span> <span class="span-3">Developer</span>' ],
+      autoStart: true,
+      loop: true,
+    });
+  </script>
     </body>
 </html>

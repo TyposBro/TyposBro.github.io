@@ -1119,3 +1119,7 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.Typewriter__wrapper {
+  display: inline !important;
+}

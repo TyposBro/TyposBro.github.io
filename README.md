@@ -1,2 +1,3 @@
-# khasanjonovich.github.io
+# typosbro.me
+
 Portfolio Page

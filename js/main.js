@@ -1,203 +1,119 @@
-/*==================== MENU SHOW Y HIDDEN ====================*/
-const navMenu = document.getElementById("nav-menu"),
-  navToggle = document.getElementById("nav-toggle"),
-  navClose = document.getElementById("nav-close");
+document.addEventListener("DOMContentLoaded", () => {
+  const output = document.getElementById("output");
+  const input = document.getElementById("command-input");
+  const terminal = document.getElementById("terminal");
 
-/*===== MENU SHOW =====*/
-/* Validate if constant exists */
-if (navToggle) {
-  navToggle.addEventListener("click", () => {
-    navMenu.classList.add("show-menu");
-  });
-}
+  const commands = {
+    help: `
+Available commands:
+  <span class="command-output">whoami</span>       - About Me
+  <span class="command-output">projects</span>     - View my major projects
+  <span class="command-output">skills</span>       - List my technical skills
+  <span class="command-output">contact</span>      - Display contact information
+  <span class="command-output">resume</span>       - Download my latest resume
+  <span class="command-output">clear</span>        - Clear the terminal screen
+        `,
+    whoami: `
+Azizbek Umidjonov // Founder & Engineer
 
-/*===== MENU HIDDEN =====*/
-/* Validate if constant exists */
-if (navClose) {
-  navClose.addEventListener("click", () => {
-    navMenu.classList.remove("show-menu");
-  });
-}
+I am an entrepreneurial Software Engineer and Founder with Principal-level expertise in end-to-end product development. I specialize in architecting high-performance native mobile applications, on-device AI solutions, and monetized, globally-ready products. 
 
-/*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll(".nav__link");
+I thrive on deep technical challenges and building things from scratch. My passion lies in owning the full product lifecycle, from ideation and architecture to deployment and cost optimization.
+        `,
+    projects: `
+I focus on building complete products. Here are my two primary ventures:
 
-function linkAction() {
-  const navMenu = document.getElementById("nav-menu");
-  // When we click on each nav__link, we remove the show-menu class
-  navMenu.classList.remove("show-menu");
-}
-navLink.forEach((n) => n.addEventListener("click", linkAction));
+1. <span class="command-output">MilliyTechnology (Founder & CTO)</span>
+   - A novel AI-driven English learning platform built from the ground up.
+   - Features a high-performance, fully offline AI pipeline using Vosk (real-time speech recognition) and a custom ONNX model (text-to-speech).
+   - Engineered a cost-optimized serverless backend on Cloudflare Workers.
+   - Architected a full monetization system with Google Play Billing and regional providers.
 
-/*==================== ACCORDION SKILLS ====================*/
-const skillsContent = document.getElementsByClassName("skills__content"),
-  skillsHeader = document.querySelectorAll(".skills__header");
-
-function toggleSkills() {
-  let itemClass = this.parentNode.className;
-
-  for (i = 0; i < skillsContent.length; i++) {
-    skillsContent[i].className = "skills__content skills__close";
-  }
-  if (itemClass == "skills__content skills__close") {
-    this.parentNode.className = "skills__content skills__open";
-  }
-}
-
-skillsHeader.forEach((el) => {
-  el.addEventListener("click", toggleSkills);
-});
-
-/*==================== QUALIFICATION TABS ====================*/
-const tabs = document.querySelectorAll("[data-target]"),
-  tabContents = document.querySelectorAll("[data-content]");
-
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const target = document.querySelector(tab.dataset.target);
-
-    tabContents.forEach((tabContent) => {
-      tabContent.classList.remove("qualification__active");
-    });
-    target.classList.add("qualification__active");
-
-    tabs.forEach((tab) => {
-      tab.classList.remove("qualification__active");
-    });
-    tab.classList.add("qualification__active");
-  });
-});
-
-/*==================== SERVICES MODAL ====================*/
-const modalViews = document.querySelectorAll(".services__modal"),
-  modalBtns = document.querySelectorAll(".services__button"),
-  modalCloses = document.querySelectorAll(".services__modal-close");
-
-let modal = function (modalClick) {
-  modalViews[modalClick].classList.add("active-modal");
-};
-
-modalBtns.forEach((modalBtn, i) => {
-  modalBtn.addEventListener("click", () => {
-    modal(i);
-  });
-});
-modalCloses.forEach((modalClose) => {
-  modalClose.addEventListener("click", () => {
-    modalViews.forEach((modalView) => {
-      modalView.classList.remove("active-modal");
-    });
-  });
-});
-
-/*==================== PORTFOLIO SWIPER  ====================*/
-let swiperPortfolio = new Swiper(".portfolio__container", {
-  cssMode: true,
-  loop: true,
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-});
-
-/*==================== TESTIMONIAL ====================*/
-let swiperTestimonial = new Swiper(".testimonial__container", {
-  loop: true,
-  grabCursor: true,
-  spaceBetween: 48,
-
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-    dynamicBullets: true,
-  },
-  breakpoints: {
-    568: {
-      slidesPerView: 2,
+2. <span class="command-output">ARIA Wellness at StoneLab (Lead Mobile Engineer)</span>
+   - Led the end-to-end development of the native Android app (Jetpack Compose).
+   - Implemented complex features like AI-based audio streaming, OAuth, and camera integration.
+   - Ensured the product was global-ready with full Korean/English localization.
+        `,
+    skills: `
+<span class="command-output">Languages:</span>      Kotlin, Dart, Python, TypeScript/JavaScript, C++
+<span class="command-output">Mobile:</span>         Jetpack Compose, Flutter, Android SDK, Google Play Billing
+<span class="command-output">AI / ML:</span>        ONNX Runtime, Vosk, PyTorch, Hugging Face, LLM Integration
+<span class="command-output">Backend & Cloud:</span>  Cloudflare Workers, Node.js, D1/R2, Firebase
+<span class="command-output">DevOps & Tools:</span>   Git, GitHub (Actions, Projects), Docker, Kubernetes
+        `,
+    contact: `
+<span class="command-output">Email:</span>     <a href="mailto:typosbro@proton.me">typosbro@proton.me</a>
+<span class="command-output">LinkedIn:</span>  <a href="https://linkedin.com/in/TyposBro" target="_blank">linkedin.com/in/TyposBro</a>
+<span class="command-output">GitHub:</span>    <a href="https://github.com/TyposBro" target="_blank">github.com/TyposBro</a>
+        `,
+    resume: () => {
+      // Make sure your resume PDF is in a 'pdf' folder
+      window.open("pdf/Azizbek_Umidjonov_RESUME.pdf", "_blank");
+      return "Downloading resume...";
     },
-  },
-});
+  };
 
-/*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
-const sections = document.querySelectorAll("section[id]");
+  const welcomeMessage = `
+Welcome to my interactive portfolio.
+Type '<span class="command-output">help</span>' to see a list of available commands.
+    `;
 
-function scrollActive() {
-  const scrollY = window.pageYOffset;
+  function typeWelcomeMessage() {
+    // *** THIS IS THE CORRECTED LINE ***
+    new Typewriter("#output", {
+      strings: [welcomeMessage],
+      autoStart: true,
+      delay: 40,
+      loop: false,
+      cursor: "",
+      // This ensures the typewriter writes into the existing #output div
+      // instead of replacing it. We'll use a wrapper for the text.
+      wrapperClassName: "typewriter-wrapper",
+    });
+  }
 
-  sections.forEach((current) => {
-    const sectionHeight = current.offsetHeight;
-    const sectionTop = current.offsetTop - 50;
-    sectionId = current.getAttribute("id");
+  function executeCommand(command) {
+    // Add the command to the output
+    const commandLine = document.createElement("div");
+    commandLine.innerHTML = `<span class="prompt">guest@typosbro.me:~$</span> <span class="command-output">${command}</span>`;
+    output.appendChild(commandLine);
 
-    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-      document
-        .querySelector(".nav__menu a[href*=" + sectionId + "]")
-        .classList.add("active-link");
+    if (command.toLowerCase() === "clear") {
+      output.innerHTML = "";
+    } else if (commands[command.toLowerCase()]) {
+      const result = commands[command.toLowerCase()];
+      const resultElement = document.createElement("div");
+      if (typeof result === "function") {
+        resultElement.innerHTML = result();
+      } else {
+        resultElement.innerHTML = result;
+      }
+      output.appendChild(resultElement);
     } else {
-      document
-        .querySelector(".nav__menu a[href*=" + sectionId + "]")
-        .classList.remove("active-link");
+      const errorElement = document.createElement("div");
+      errorElement.innerHTML = `Command not found: ${command}. Type 'help' for a list of commands.`;
+      output.appendChild(errorElement);
+    }
+
+    // Scroll to the bottom
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const command = input.value.trim();
+      input.value = "";
+      if (command) {
+        executeCommand(command);
+      }
     }
   });
-}
-window.addEventListener("scroll", scrollActive);
 
-/*==================== CHANGE BACKGROUND HEADER ====================*/
-function scrollHeader() {
-  const nav = document.getElementById("header");
-  // When the scroll is greater than 200 viewport height, add the scroll-header class to the header tag
-  if (this.scrollY >= 80) nav.classList.add("scroll-header");
-  else nav.classList.remove("scroll-header");
-}
-window.addEventListener("scroll", scrollHeader);
+  // Focus on the input when the terminal is clicked
+  terminal.addEventListener("click", () => {
+    input.focus();
+  });
 
-/*==================== SHOW SCROLL UP ====================*/
-function scrollUp() {
-  const scrollUp = document.getElementById("scroll-up");
-  // When the scroll is higher than 560 viewport height, add the show-scroll class to the a tag with the scroll-up class
-  if (this.scrollY >= 560) scrollUp.classList.add("show-scroll");
-  else scrollUp.classList.remove("show-scroll");
-}
-window.addEventListener("scroll", scrollUp);
-
-/*==================== DARK LIGHT THEME ====================*/
-const themeButton = document.getElementById("theme-button");
-const darkTheme = "dark-theme";
-const iconTheme = "uil-sun";
-
-// Previously selected topic (if user selected)
-const selectedTheme = localStorage.getItem("selected-theme");
-const selectedIcon = localStorage.getItem("selected-icon");
-
-// We obtain the current theme that the interface has by validating the dark-theme class
-const getCurrentTheme = () =>
-  document.body.classList.contains(darkTheme) ? "dark" : "light";
-const getCurrentIcon = () =>
-  themeButton.classList.contains(iconTheme) ? "uil-moon" : "uil-sun";
-
-// We validate if the user previously chose a topic
-if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
-  document.body.classList[selectedTheme === "dark" ? "add" : "remove"](
-    darkTheme
-  );
-  themeButton.classList[selectedIcon === "uil-moon" ? "add" : "remove"](
-    iconTheme
-  );
-}
-
-// Activate / deactivate the theme manually with the button
-themeButton.addEventListener("click", () => {
-  // Add or remove the dark / icon theme
-  document.body.classList.toggle(darkTheme);
-  themeButton.classList.toggle(iconTheme);
-  // We save the theme and the current icon that the user chose
-  localStorage.setItem("selected-theme", getCurrentTheme());
-  localStorage.setItem("selected-icon", getCurrentIcon());
+  // Start with the welcome message
+  typeWelcomeMessage();
 });
-
-// Audio AutoPlay

@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Главная",
+    "projects": "Проекты",
+    "about": "Обо мне",
+    "blog": "Блог",
+    "contact": "Контакты",
+    "resume": "Резюме"
+  },
+  "hero": {
+    "title": "Разработчик потребительских продуктов и инфраструктуры.",
+    "subtitle": "Живу в Сеуле. Виза E-7. Открыт к senior-позициям в корейских tech-компаниях.",
+    "cta_projects": "Проекты",
+    "cta_contact": "Написать"
+  },
+  "home": {
+    "focus_label": "Сейчас работаю над",
+    "stack_label": "Основной стек",
+    "oss_label": "Open source"
+  },
+  "projects": {
+    "all": "Все проекты",
+    "featured": "Избранное",
+    "view_case_study": "Кейс-стади",
+    "view_repo": "GitHub",
+    "view_demo": "Демо",
+    "view_npm": "npm"
+  },
+  "footer": {
+    "built_with": "Сайт на Astro.",
+    "source": "Исходный код"
+  }
+}

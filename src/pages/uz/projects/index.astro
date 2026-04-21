@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../../i18n/utils';
+import { HIDDEN_PROJECT_SLUGS } from '../../../config';
+
+const locale = 'uz' as const;
+
+const all = await getCollection('projects', ({ data }) =>
+  (data.locale === 'uz' || data.locale === 'en') &&
+  !data.hidden &&
+  !HIDDEN_PROJECT_SLUGS.includes(data.key as any)
+);
+const bySlug = new Map<string, typeof all[number]>();
+for (const p of all) {
+  const existing = bySlug.get(p.data.key);
+  if (!existing || (existing.data.locale === 'en' && p.data.locale === 'uz')) {
+    bySlug.set(p.data.key, p);
+  }
+}
+const projects = Array.from(bySlug.values()).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base locale={locale} title="Loyihalar — Azizbek Umidjonov">
+  <h1 class="text-3xl font-bold tracking-tight mb-8">{t(locale, 'projects.all')}</h1>
+  <div class="grid sm:grid-cols-2 gap-6">
+    {projects.map((p) => <ProjectCard project={p} locale={locale} />)}
+  </div>
+</Base>

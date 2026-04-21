@@ -1,0 +1,27 @@
+---
+import { SITE, type Locale } from '../config';
+import { t } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<footer class="border-t border-[var(--color-border)] mt-auto">
+  <div
+    class="max-w-5xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-[var(--color-muted)]"
+  >
+    <span>© {new Date().getFullYear()} {SITE.name}</span>
+    <span class="flex items-center gap-4">
+      <a href={SITE.github}>GitHub</a>
+      <a href={SITE.twitter}>Twitter</a>
+      <a href={SITE.linkedin}>LinkedIn</a>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </span>
+  </div>
+  <div class="max-w-5xl mx-auto px-6 pb-6 text-xs text-[var(--color-muted)] text-center sm:text-right">
+    {t(locale, 'footer.built_with')}
+  </div>
+</footer>

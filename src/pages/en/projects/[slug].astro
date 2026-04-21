@@ -1,0 +1,26 @@
+---
+import Project from '../../../layouts/Project.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { HIDDEN_PROJECT_SLUGS } from '../../../config';
+
+export async function getStaticPaths() {
+  const all = await getCollection('projects', ({ data }) =>
+    data.locale === 'en' && !data.hidden && !HIDDEN_PROJECT_SLUGS.includes(data.key as any)
+  );
+  return all.map((project) => ({
+    params: { slug: project.data.key },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Project project={project} locale="en">
+  <Content />
+</Project>

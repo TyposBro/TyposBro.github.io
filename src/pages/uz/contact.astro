@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+
+const locale = 'uz' as const;
+---
+
+<Base locale={locale} title="Aloqa — Azizbek Umidjonov">
+  <article class="max-w-xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Aloqa</h1>
+    <p class="text-[var(--color-muted)] mb-8 leading-relaxed">
+      Eng tezkor aloqa — email orqali. Ish kunida javob beraman.
+      HR mutaxassislari uchun: iltimos, pozitsiya va maosh oralig'ini
+      darhol ko'rsating — hammaning vaqtini tejaymiz.
+    </p>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
+        <span class="text-[var(--color-muted)] text-sm uppercase tracking-wider">Email</span>
+        <a href={`mailto:${SITE.email}`} class="font-mono">{SITE.email}</a>
+      </div>
+      <div class="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
+        <span class="text-[var(--color-muted)] text-sm uppercase tracking-wider">GitHub</span>
+        <a href={SITE.github}>@TyposBro</a>
+      </div>
+      <div class="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
+        <span class="text-[var(--color-muted)] text-sm uppercase tracking-wider">LinkedIn</span>
+        <a href={SITE.linkedin}>linkedin.com/in/typosbro</a>
+      </div>
+      <div class="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
+        <span class="text-[var(--color-muted)] text-sm uppercase tracking-wider">Twitter</span>
+        <a href={SITE.twitter}>@typosbro</a>
+      </div>
+    </div>
+  </article>
+</Base>

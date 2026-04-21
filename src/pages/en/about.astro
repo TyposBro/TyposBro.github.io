@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const locale = 'en' as const;
+---
+
+<Base locale={locale} title="About — Azizbek Umidjonov">
+  <article class="max-w-2xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">About</h1>
+
+    <div class="space-y-4 text-[var(--color-fg)] leading-relaxed">
+      <p>
+        I'm a software engineer based in Seoul. I build consumer products
+        and the infrastructure that runs them — Android, web, backends,
+        and increasingly the CI/CD and observability that holds it all
+        together.
+      </p>
+
+      <p>
+        I've shipped a profitable English-learning app solo (100K+
+        downloads), contributed to Hono.js, published an OSS payment
+        library used in production, and am currently the tech co-founder
+        of a live-commerce translation startup pushing real-time
+        multilingual video through AWS Fargate.
+      </p>
+
+      <p>
+        My engineering values are pragmatic. I favor clean architecture
+        because it keeps debugging cheap, testing at three tiers because
+        bugs hide between layers, and observability because production is
+        the only place that matters. I don't over-engineer — ship, measure,
+        iterate.
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">What I'm looking for</h2>
+      <p>
+        Senior-level engineering roles in Korea — ideally Android, platform,
+        or full-stack positions where the team ships consumer-facing products
+        and cares about craft.
+      </p>
+      <p>
+        I hold an E-7 visa, so I'm work-authorized in Korea today. I'm
+        studying Korean actively (beginner level).
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">Background</h2>
+      <ul class="list-disc list-inside space-y-1.5 text-[var(--color-fg)]">
+        <li>Coding since 2019, full-time professional since 2020</li>
+        <li>Previous: StoneLab (Android + mobile + frontend, Seoul)</li>
+        <li>Before that: CodemyUz (2020, Uzbekistan)</li>
+        <li>Side projects: Spiko English (solo), Brivva Tech (co-founded)</li>
+      </ul>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">Beyond code</h2>
+      <p>
+        I use NixOS + Obsidian + terminal-heavy workflows. I read more than
+        I write. I'm slowly building a Korean vocabulary that will, one
+        day, let me stop apologizing in English at the convenience store.
+      </p>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <a
+        href="/resume-android.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        Résumé — Android
+      </a>
+      <a
+        href="/resume-backend.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        Résumé — Backend
+      </a>
+      <a
+        href="/resume-frontend.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        Résumé — Frontend
+      </a>
+    </div>
+  </article>
+</Base>

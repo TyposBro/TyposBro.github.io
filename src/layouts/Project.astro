@@ -1,0 +1,66 @@
+---
+import Base from './Base.astro';
+import type { Locale } from '../config';
+import type { CollectionEntry } from 'astro:content';
+import { t } from '../i18n/utils';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const d = project.data;
+---
+
+<Base
+  locale={locale}
+  title={`${d.title} — Azizbek Umidjonov`}
+  description={d.tagline}
+>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-10">
+      <div class="flex items-baseline justify-between gap-4 mb-2">
+        <h1 class="text-4xl font-bold tracking-tight">{d.title}</h1>
+        <span class="text-sm font-mono text-[var(--color-muted)]">{d.year}</span>
+      </div>
+      <p class="text-lg text-[var(--color-muted)] mb-6">{d.tagline}</p>
+      <dl class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
+        <div>
+          <dt class="text-[var(--color-muted)] uppercase text-xs tracking-wider mb-1">Role</dt>
+          <dd>{d.role}</dd>
+        </div>
+        <div class="sm:col-span-2">
+          <dt class="text-[var(--color-muted)] uppercase text-xs tracking-wider mb-1">Stack</dt>
+          <dd class="flex flex-wrap gap-1.5">
+            {
+              d.stack.map((s) => (
+                <span class="font-mono text-xs border border-[var(--color-border)] rounded px-2 py-0.5">
+                  {s}
+                </span>
+              ))
+            }
+          </dd>
+        </div>
+      </dl>
+      <div class="flex items-center gap-4 text-sm">
+        {d.repo && <a href={d.repo} class="text-[var(--color-accent)]">{t(locale, 'projects.view_repo')} →</a>}
+        {d.npm && <a href={d.npm} class="text-[var(--color-accent)]">{t(locale, 'projects.view_npm')} →</a>}
+        {d.demo && <a href={d.demo} class="text-[var(--color-accent)]">{t(locale, 'projects.view_demo')} →</a>}
+      </div>
+    </header>
+
+    <div class="prose prose-invert max-w-none
+      prose-headings:font-semibold prose-headings:tracking-tight
+      prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+      prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-2
+      prose-p:text-[var(--color-fg)] prose-p:leading-relaxed
+      prose-li:text-[var(--color-fg)]
+      prose-code:font-mono prose-code:text-sm
+      prose-code:bg-[var(--color-border)] prose-code:rounded prose-code:px-1 prose-code:py-0.5
+      prose-code:before:content-none prose-code:after:content-none
+      prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline">
+      <slot />
+    </div>
+  </article>
+</Base>

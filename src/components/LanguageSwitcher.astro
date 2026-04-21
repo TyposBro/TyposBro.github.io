@@ -1,0 +1,38 @@
+---
+import { LOCALES, LOCALE_NAMES, type Locale } from '../config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+// Strip the current locale prefix from the current URL so we can swap it.
+// Astro.url.pathname = "/en/projects/uzpay/" → "/projects/uzpay/"
+const path = Astro.url.pathname.replace(/^\/(en|ko|ru|uz)/, '') || '/';
+---
+
+<div class="relative group">
+  <button
+    class="text-[var(--color-muted)] hover:text-[var(--color-fg)] transition-colors"
+    aria-label="Change language"
+  >
+    {LOCALE_NAMES[locale]}
+  </button>
+  <ul
+    class="absolute right-0 mt-2 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-md py-1 min-w-28 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+  >
+    {
+      LOCALES.filter((l) => l !== locale).map((l) => (
+        <li>
+          <a
+            href={`/${l}${path}`}
+            class="block px-3 py-1.5 hover:bg-[var(--color-border)]"
+          >
+            {LOCALE_NAMES[l]}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

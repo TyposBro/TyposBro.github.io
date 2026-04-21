@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const locale = 'ru' as const;
+---
+
+<Base locale={locale} title="Обо мне — Azizbek Umidjonov">
+  <article class="max-w-2xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Обо мне</h1>
+
+    <div class="space-y-4 text-[var(--color-fg)] leading-relaxed">
+      <p>
+        Разработчик, живу в Сеуле. Делаю потребительские продукты
+        полного цикла — Android, веб-фронтенд, бэкенды и всё, что нужно
+        чтобы это работало в продакшне (CI/CD, мониторинг, инфраструктура).
+      </p>
+
+      <p>
+        В одиночку запустил прибыльное приложение для изучения английского
+        (100K+ скачиваний). Контрибьютор Hono.js. Опубликовал OSS библиотеку
+        для узбекистанских платёжных систем. Сейчас — технический со-основатель
+        стартапа по real-time мультиязычной трансляции для live-коммерции.
+      </p>
+
+      <p>
+        Инженерные принципы — прагматичные. Чистая архитектура, потому что
+        она делает дебаг дешёвым. Три уровня тестов, потому что баги прячутся
+        между слоями. Observability, потому что продакшн — единственное, что
+        имеет значение. Без оверинжиниринга — релиз, метрики, итерация.
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">Что ищу</h2>
+      <p>
+        Senior-позиции в корейских tech-компаниях. Предпочтительно Android,
+        платформа, или fullstack — там, где команда делает продукты для
+        пользователей и заботится о ремесле.
+      </p>
+      <p>
+        Есть рабочая виза E-7, могу работать в Корее сегодня. Корейский —
+        начальный уровень, активно учу.
+      </p>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <a href="/resume-android.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">
+        Резюме — Android
+      </a>
+      <a href="/resume-backend.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">
+        Резюме — Backend
+      </a>
+      <a href="/resume-frontend.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">
+        Резюме — Frontend
+      </a>
+    </div>
+  </article>
+</Base>

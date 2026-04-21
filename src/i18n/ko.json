@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "홈",
+    "projects": "프로젝트",
+    "about": "소개",
+    "blog": "블로그",
+    "contact": "연락",
+    "resume": "이력서"
+  },
+  "hero": {
+    "title": "소비자 제품과 인프라를 엔드 투 엔드로 만드는 소프트웨어 엔지니어.",
+    "subtitle": "서울 거주. E-7 비자. 한국 테크 기업의 시니어 포지션에 관심 있습니다.",
+    "cta_projects": "프로젝트 보기",
+    "cta_contact": "연락하기"
+  },
+  "home": {
+    "focus_label": "현재 집중 중",
+    "stack_label": "핵심 스택",
+    "oss_label": "오픈소스"
+  },
+  "projects": {
+    "all": "전체 프로젝트",
+    "featured": "주요 프로젝트",
+    "view_case_study": "케이스 스터디",
+    "view_repo": "GitHub",
+    "view_demo": "데모",
+    "view_npm": "npm"
+  },
+  "footer": {
+    "built_with": "Astro로 제작.",
+    "source": "소스"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "resume": "Résumé"
+  },
+  "hero": {
+    "title": "Software engineer building consumer + infrastructure products.",
+    "subtitle": "Based in Seoul. E-7 visa. Open to senior roles in Korean tech.",
+    "cta_projects": "See projects",
+    "cta_contact": "Get in touch"
+  },
+  "home": {
+    "focus_label": "Currently working on",
+    "stack_label": "Core stack",
+    "oss_label": "Open source"
+  },
+  "projects": {
+    "all": "All projects",
+    "featured": "Featured",
+    "view_case_study": "Case study",
+    "view_repo": "GitHub",
+    "view_demo": "Demo",
+    "view_npm": "npm"
+  },
+  "footer": {
+    "built_with": "Built with Astro.",
+    "source": "Source"
+  }
+}

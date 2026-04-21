@@ -1,0 +1,27 @@
+---
+import { SITE, type Locale } from '../config';
+import { t } from '../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const base = `/${locale}`;
+---
+
+<header class="border-b border-[var(--color-border)]">
+  <nav class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between gap-6">
+    <a href={`${base}/`} class="font-semibold tracking-tight">
+      {SITE.name}
+    </a>
+    <div class="flex items-center gap-6 text-sm">
+      <a href={`${base}/projects/`}>{t(locale, 'nav.projects')}</a>
+      <a href={`${base}/about/`}>{t(locale, 'nav.about')}</a>
+      <a href={`${base}/blog/`}>{t(locale, 'nav.blog')}</a>
+      <a href={`${base}/contact/`}>{t(locale, 'nav.contact')}</a>
+      <LanguageSwitcher locale={locale} />
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "projects": "Loyihalar",
+    "about": "Men haqimda",
+    "blog": "Blog",
+    "contact": "Aloqa",
+    "resume": "Rezyume"
+  },
+  "hero": {
+    "title": "Iste'molchi mahsulotlari va infratuzilmani qurayotgan dasturchi.",
+    "subtitle": "Seulda yashayman. E-7 vizasi. Koreya tech-kompaniyalaridagi senior ish taklihlariga ochiq.",
+    "cta_projects": "Loyihalarni ko'rish",
+    "cta_contact": "Bog'lanish"
+  },
+  "home": {
+    "focus_label": "Hozir ishlayapman",
+    "stack_label": "Asosiy stack",
+    "oss_label": "Ochiq kod"
+  },
+  "projects": {
+    "all": "Barcha loyihalar",
+    "featured": "Tanlangan",
+    "view_case_study": "Batafsil",
+    "view_repo": "GitHub",
+    "view_demo": "Demo",
+    "view_npm": "npm"
+  },
+  "footer": {
+    "built_with": "Astro yordamida qurilgan.",
+    "source": "Manba"
+  }
+}

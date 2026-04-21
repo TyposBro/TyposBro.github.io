@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const locale = 'uz' as const;
+---
+
+<Base locale={locale} title="Men haqimda — Azizbek Umidjonov">
+  <article class="max-w-2xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Men haqimda</h1>
+
+    <div class="space-y-4 text-[var(--color-fg)] leading-relaxed">
+      <p>
+        Men — Seulda yashayotgan dasturchi. Iste'molchiga mo'ljallangan
+        mahsulotlarni end-to-end ishlab chiqaman — Android, veb-frontend,
+        backend, shuningdek, ularni productionda ishlatadigan CI/CD va
+        kuzatuv tizimlari.
+      </p>
+
+      <p>
+        O'zim bitta ingliz tili o'rganish ilovasini yaratib foyda
+        keltiradigan holatga olib keldim (100K+ yuklab olish). Hono.js
+        open-source kontributori. npm'da uzbekiston to'lov tizimlari
+        uchun kutubxona chiqarganman. Hozir real-vaqtda ko'p tilli
+        jonli savdo (live-commerce) startapining texnik hammuassisiman.
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">Nima qidiryapman</h2>
+      <p>
+        Koreya tech-kompaniyalarida senior-darajadagi muhandis
+        pozitsiyasi — Android, platforma, yoki full-stack. Iste'molchi
+        mahsulotlarini ishlab chiqaradigan va sifatga ahamiyat beradigan
+        jamoalarni afzal ko'raman.
+      </p>
+      <p>
+        E-7 ish vizasi bor, bugundan Koreyada ishlay olaman. Koreys
+        tilini boshlang'ich darajada bilaman va faol o'rganaman.
+      </p>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <a href="/resume-android.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">Rezyume — Android</a>
+      <a href="/resume-backend.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">Rezyume — Backend</a>
+      <a href="/resume-frontend.pdf" class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]">Rezyume — Frontend</a>
+    </div>
+  </article>
+</Base>

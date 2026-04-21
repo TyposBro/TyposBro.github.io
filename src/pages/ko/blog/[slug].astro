@@ -1,0 +1,42 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const all = await getCollection('posts', ({ data }) =>
+    data.locale === 'ko' && !data.draft
+  );
+  return all.map((post) => ({
+    params: { slug: post.data.key },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Base locale="ko" title={`${post.data.title} — Azizbek Umidjonov`} description={post.data.excerpt}>
+  <article class="max-w-2xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold tracking-tight mb-2">{post.data.title}</h1>
+      <time class="text-sm font-mono text-[var(--color-muted)]" datetime={post.data.date.toISOString()}>
+        {post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+    </header>
+    <div class="prose prose-invert max-w-none
+      prose-headings:font-semibold prose-headings:tracking-tight
+      prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-3
+      prose-p:text-[var(--color-fg)] prose-p:leading-relaxed
+      prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline
+      prose-code:font-mono prose-code:text-sm
+      prose-code:bg-[var(--color-border)] prose-code:rounded prose-code:px-1 prose-code:py-0.5
+      prose-code:before:content-none prose-code:after:content-none">
+      <Content />
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../config';
+import { t } from '../i18n/utils';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const d = project.data;
+const href = `/${locale}/projects/${d.key}/`;
+---
+
+<article class="border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-accent)] transition-colors">
+  <header class="flex items-baseline justify-between gap-4 mb-2">
+    <h3 class="text-lg font-semibold">
+      <a href={href}>{d.title}</a>
+    </h3>
+    <span class="text-xs text-[var(--color-muted)] font-mono">{d.year}</span>
+  </header>
+  <p class="text-[var(--color-muted)] mb-4 text-sm">{d.tagline}</p>
+  <ul class="flex flex-wrap gap-1.5 mb-4">
+    {
+      d.stack.map((tech) => (
+        <li class="text-xs font-mono text-[var(--color-muted)] border border-[var(--color-border)] rounded px-2 py-0.5">
+          {tech}
+        </li>
+      ))
+    }
+  </ul>
+  <footer class="flex items-center gap-4 text-sm">
+    <a href={href} class="text-[var(--color-accent)]">
+      {t(locale, 'projects.view_case_study')} →
+    </a>
+    {d.repo && <a href={d.repo} class="text-[var(--color-muted)]">{t(locale, 'projects.view_repo')}</a>}
+    {d.npm && <a href={d.npm} class="text-[var(--color-muted)]">{t(locale, 'projects.view_npm')}</a>}
+    {d.demo && <a href={d.demo} class="text-[var(--color-muted)]">{t(locale, 'projects.view_demo')}</a>}
+  </footer>
+</article>

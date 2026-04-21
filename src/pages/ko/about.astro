@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const locale = 'ko' as const;
+---
+
+<Base locale={locale} title="소개 — Azizbek Umidjonov">
+  <article class="max-w-2xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">소개</h1>
+
+    <div class="space-y-4 text-[var(--color-fg)] leading-relaxed">
+      <p>
+        서울에서 활동 중인 소프트웨어 엔지니어입니다. 안드로이드,
+        웹 프론트엔드, 백엔드, 그리고 이 모두를 지탱하는 CI/CD와
+        관측 시스템까지 소비자용 제품을 end-to-end로 만듭니다.
+      </p>
+
+      <p>
+        혼자 만든 영어 학습 앱(10만+ 다운로드)을 성공적으로 런칭했고,
+        Hono.js 오픈소스 기여자이며, 우즈베키스탄 결제 라이브러리
+        (npm)를 퍼블리시했습니다. 현재는 실시간 다국어 라이브 커머스
+        스타트업의 기술 공동창업자로 AWS Fargate 기반의 실시간 영상
+        번역 파이프라인을 만들고 있습니다.
+      </p>
+
+      <p>
+        엔지니어링 철학은 실용주의입니다. 클린 아키텍처로 디버깅
+        비용을 낮추고, 3단계(unit/integration/e2e) 테스팅으로 레이어
+        사이 버그를 잡고, 관측(observability)으로 프로덕션 품질을
+        지킵니다. 과도한 설계는 피하고 — 배포하고, 측정하고, 개선합니다.
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">찾고 있는 포지션</h2>
+      <p>
+        한국 테크 기업의 시니어 엔지니어링 포지션 — 안드로이드,
+        플랫폼, 또는 풀스택. 소비자용 제품을 만들고 크래프트를
+        중시하는 팀을 선호합니다.
+      </p>
+      <p>
+        E-7 비자를 보유하고 있어 한국에서 즉시 근무 가능합니다.
+        한국어는 초급 수준이며 적극적으로 학습 중입니다.
+      </p>
+
+      <h2 class="text-xl font-semibold mt-10 mb-3">경력</h2>
+      <ul class="list-disc list-inside space-y-1.5 text-[var(--color-fg)]">
+        <li>2019년 코딩 시작, 2020년부터 풀타임 전문 개발자</li>
+        <li>이전: StoneLab (안드로이드 + 모바일 + 프론트엔드, 서울)</li>
+        <li>그 이전: CodemyUz (2020, 우즈베키스탄)</li>
+        <li>사이드: Spiko English (단독), Brivva Tech (공동창업)</li>
+      </ul>
+    </div>
+
+    <div class="mt-12 flex flex-wrap gap-3">
+      <a
+        href="/resume-android.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        이력서 — Android
+      </a>
+      <a
+        href="/resume-backend.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        이력서 — Backend
+      </a>
+      <a
+        href="/resume-frontend.pdf"
+        class="border border-[var(--color-border)] px-4 py-2 rounded-md text-sm hover:border-[var(--color-accent)]"
+      >
+        이력서 — Frontend
+      </a>
+    </div>
+  </article>
+</Base>

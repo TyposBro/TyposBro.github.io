@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../i18n/utils';
+import { HIDDEN_PROJECT_SLUGS } from '../../config';
+
+const locale = 'ru' as const;
+
+// Fall back to English content if no RU version exists.
+const all = await getCollection('projects', ({ data }) =>
+  (data.locale === 'ru' || data.locale === 'en') &&
+  !data.hidden &&
+  !HIDDEN_PROJECT_SLUGS.includes(data.key as any)
+);
+// Prefer RU when both exist for a slug.
+const bySlug = new Map<string, typeof all[number]>();
+for (const p of all) {
+  const existing = bySlug.get(p.data.key);
+  if (!existing || (existing.data.locale === 'en' && p.data.locale === 'ru')) {
+    bySlug.set(p.data.key, p);
+  }
+}
+const projects = Array.from(bySlug.values()).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base locale={locale}>
+  <section class="mb-16">
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-tight max-w-3xl">
+      {t(locale, 'hero.title')}
+    </h1>
+    <p class="text-[var(--color-muted)] mt-4 max-w-2xl">
+      {t(locale, 'hero.subtitle')}
+    </p>
+    <div class="flex gap-4 mt-6">
+      <a
+        href={`/${locale}/projects/`}
+        class="inline-block border border-[var(--color-accent)] text-[var(--color-accent)] px-4 py-2 rounded-md hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)] transition-colors"
+      >
+        {t(locale, 'hero.cta_projects')}
+      </a>
+      <a
+        href={`/${locale}/contact/`}
+        class="inline-block border border-[var(--color-border)] px-4 py-2 rounded-md hover:border-[var(--color-fg)] transition-colors"
+      >
+        {t(locale, 'hero.cta_contact')}
+      </a>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-xl font-semibold mb-6">{t(locale, 'projects.featured')}</h2>
+    <div class="grid sm:grid-cols-2 gap-6">
+      {projects.map((p) => <ProjectCard project={p} locale={locale} />)}
+    </div>
+  </section>
+</Base>

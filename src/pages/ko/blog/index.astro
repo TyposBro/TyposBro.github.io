@@ -1,0 +1,43 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const locale = 'ko' as const;
+
+const allPosts = await getCollection('posts', ({ data }) =>
+  data.locale === locale && !data.draft
+);
+const posts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Base locale={locale} title="블로그 — Azizbek Umidjonov">
+  <h1 class="text-3xl font-bold tracking-tight mb-8">블로그</h1>
+  {
+    posts.length === 0 ? (
+      <p class="text-[var(--color-muted)]">
+        아직 포스트가 없습니다. Spiko 솔로 런칭, Brivva ffmpeg 사건, agent-vault
+        개발기 등의 글이 준비 중입니다.
+      </p>
+    ) : (
+      <ul class="space-y-6">
+        {posts.map((post) => (
+          <li class="border-b border-[var(--color-border)] pb-6">
+            <a href={`/${locale}/blog/${post.data.key}/`} class="block group">
+              <div class="flex items-baseline justify-between gap-4 mb-1">
+                <h2 class="text-lg font-semibold group-hover:text-[var(--color-accent)] transition-colors">
+                  {post.data.title}
+                </h2>
+                <time class="text-xs font-mono text-[var(--color-muted)]" datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+              </div>
+              <p class="text-[var(--color-muted)] text-sm">{post.data.excerpt}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Base>

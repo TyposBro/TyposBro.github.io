@@ -106,4 +106,4 @@ AI 코딩 에이전트를 둘 이상 쓰고 있거나, 앞으로 1년 안에 쓸
 
 ---
 
-*소스 코드: [github.com/TyposBro/agent-vault](https://github.com/TyposBro/agent-vault). 피드백 환영합니다 [Twitter](https://twitter.com/typosbro).*
+*소스 코드: [github.com/TyposBro/agent-vault](https://github.com/TyposBro/agent-vault). 피드백 환영합니다 [Twitter](https://x.com/typosbro63199).*

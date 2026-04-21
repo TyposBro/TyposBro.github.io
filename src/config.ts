@@ -13,8 +13,8 @@ export const SITE = {
   url: 'https://typosbro.github.io',
   email: 'typosbro@proton.me',
   github: 'https://github.com/TyposBro',
-  twitter: 'https://twitter.com/typosbro',
-  linkedin: 'https://www.linkedin.com/in/typosbro',
+  twitter: 'https://x.com/typosbro63199',
+  linkedin: 'https://www.linkedin.com/in/typosbro54/',
 } as const;
 
 // Projects currently gated (e.g. Spiko + Brivva hidden until F-2-7).

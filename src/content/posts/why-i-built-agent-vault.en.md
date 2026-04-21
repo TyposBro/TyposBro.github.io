@@ -168,4 +168,4 @@ on.
 
 ---
 
-*Source code: [github.com/TyposBro/agent-vault](https://github.com/TyposBro/agent-vault). Feedback welcome on [Twitter](https://twitter.com/typosbro).*
+*Source code: [github.com/TyposBro/agent-vault](https://github.com/TyposBro/agent-vault). Feedback welcome on [Twitter](https://x.com/typosbro63199).*

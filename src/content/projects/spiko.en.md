@@ -7,8 +7,8 @@ featured: true
 year: 2022
 role: Solo builder
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
-tagline: English learning app I built solo. 100K+ downloads, 62K MAU, profitable.
-demo: https://play.google.com/store/apps/details?id=com.spiko.english
+tagline: AI English exam-prep app I built solo. 100K+ installs, 62K MAU, profitable.
+demo: https://play.google.com/store/apps/details?id=org.milliytechnology.spiko
 order: 1
 ---
 
@@ -30,7 +30,7 @@ subscriptions that aren't accessible at local pricing.
 
 ## Outcome
 
-- 100,000+ downloads
+- 100,000+ installs on Google Play, 4.8 stars
 - 62,000 MAU, 7,300 DAU
 - 99.9% crash-free sessions
 - Profitable; 44-minute average session length

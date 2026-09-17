@@ -4,7 +4,7 @@ const projects = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    // `key` is the stable cross-locale identifier (e.g. "agent-vault").
+    // `key` is the stable cross-locale identifier (e.g. "spiko").
     // Astro auto-derives `slug` from the filename; we need our own
     // identifier so we can pair the EN + KO + RU + UZ versions of the
     // same project together.

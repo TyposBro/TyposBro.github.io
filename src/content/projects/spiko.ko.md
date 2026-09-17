@@ -8,7 +8,7 @@ year: 2022
 role: 단독 개발
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
 tagline: 혼자 만든 영어 학습 앱. 10만+ 다운로드, 62K MAU, 수익성 확보.
-demo: https://play.google.com/store/apps/details?id=com.spiko.english
+demo: https://play.google.com/store/apps/details?id=org.milliytechnology.spiko
 order: 1
 ---
 

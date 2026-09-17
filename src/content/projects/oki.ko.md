@@ -8,6 +8,7 @@ year: 2026
 role: 안드로이드 엔지니어
 stack: [Kotlin, Jetpack Compose, RevenueCat, Google Play]
 tagline: 언어 학습 앱의 안드로이드 클라이언트를 만들어 안정적인 프로덕션 릴리스까지 끌고 갔습니다.
+demo: https://play.google.com/store/apps/details?id=ai.adl.oki
 order: 2
 ---
 
@@ -30,6 +31,7 @@ iOS 우선으로 만들어진 제품이었고 안드로이드는 아직 로드�
 ## 결과
 
 - Google Play 프로덕션 릴리스, 버전 1.0.2
+- Google Play 설치 10,000건 이상
 - 일 활성 사용자 400~800명
 - 크래시율 0.27퍼센트, ANR율 0.11퍼센트로 Google Play 기준치 이내
 - 1.0.2 릴리스에서 구독 귀속 문제 해결

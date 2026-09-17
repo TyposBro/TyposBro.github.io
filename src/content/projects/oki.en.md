@@ -8,6 +8,7 @@ year: 2026
 role: Android engineer
 stack: [Kotlin, Jetpack Compose, RevenueCat, Google Play]
 tagline: Took a language-learning app's Android client from nothing to a stable production release.
+demo: https://play.google.com/store/apps/details?id=ai.adl.oki
 order: 2
 ---
 
@@ -31,6 +32,7 @@ monetization that the marketing spend depended on.
 ## Outcome
 
 - Production release live on Google Play, version 1.0.2
+- 10,000+ installs on Google Play
 - 400 to 800 daily active users
 - Crash rate 0.27 percent and ANR rate 0.11 percent, both well inside Google
   Play's bad-behavior thresholds

@@ -59,3 +59,8 @@ Prism 같은 기존 플랫폼은 방송을 처리; Dubly는 더빙을 처리. �
 [github.com/TyposBro/brivva](https://github.com/TyposBro/brivva) —
 Rust 미디어 파이프라인, Cloudflare Workers API, 공유 컨트랙트
 패키지, OpenTofu 인프라.
+
+2026년 4월에 진행한 엔드투엔드 테스트 영상이
+[YouTube](https://www.youtube.com/watch?v=1BaK5CdfYc8)에 있습니다. 실제 호스트가
+파이프라인을 거쳐, 번역된 출력이 라이브 스트림으로 송출된 기록입니다.
+제품 데모가 아니라 테스트 영상입니다.

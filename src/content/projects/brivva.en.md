@@ -64,3 +64,8 @@ close. The code is open source:
 [github.com/TyposBro/brivva](https://github.com/TyposBro/brivva) —
 the Rust media pipeline, the Cloudflare Workers API, the shared
 contract package, and the OpenTofu infrastructure.
+
+A recorded end-to-end test from April 2026 is on
+[YouTube](https://www.youtube.com/watch?v=1BaK5CdfYc8): a real host, pushed
+through the pipeline, with the translated output going out as a live stream.
+Test footage, not a product demo.

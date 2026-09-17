@@ -21,7 +21,7 @@ export const SITE = {
 // resident visa was granted. Brivva stays hidden until Aziz confirms it is
 // public-safe. Per-project frontmatter `hidden: true` still applies
 // independently, so both mechanisms must be off for display.
-export const HIDDEN_PROJECT_SLUGS = ['brivva'] as const;
+export const HIDDEN_PROJECT_SLUGS: string[] = [];
 
 export const LOCALES = ['en', 'ko', 'ru', 'uz'] as const;
 export type Locale = (typeof LOCALES)[number];

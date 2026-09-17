@@ -2,13 +2,14 @@
 title: Brivva Tech
 key: brivva
 locale: ko
-hidden: true
+hidden: false
 featured: true
 year: 2026
 role: 공동창업자 + 테크 리드
 stack: [Rust, Cloudflare Workers, AWS Fargate, Terraform]
 tagline: 실시간 다국어 라이브 커머스 방송. 한 번의 방송, 여러 시장, 호스트의 목소리 유지.
 order: 2
+repo: https://github.com/TyposBro/brivva
 ---
 
 ## 문제
@@ -50,3 +51,11 @@ Prism 같은 기존 플랫폼은 방송을 처리; Dubly는 더빙을 처리. �
   체인에 필요
 - 수직 집중 (한국 라이브 커머스)이 수평 확장 (범용 "모두를 위한
   번역")을 이김 — 플랫폼별 통합이 moat, ML 모델이 아님
+
+## 상태
+
+2026년 5월 펀딩 라운드가 마감되지 않으면서 개발을 중단했습니다.
+코드는 오픈소스로 공개했습니다:
+[github.com/TyposBro/brivva](https://github.com/TyposBro/brivva) —
+Rust 미디어 파이프라인, Cloudflare Workers API, 공유 컨트랙트
+패키지, OpenTofu 인프라.

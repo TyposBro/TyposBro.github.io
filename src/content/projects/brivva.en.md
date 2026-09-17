@@ -2,13 +2,14 @@
 title: Brivva Tech
 key: brivva
 locale: en
-hidden: true
+hidden: false
 featured: true
 year: 2026
 role: Co-founder + tech lead
 stack: [Rust, Cloudflare Workers, AWS Fargate, Terraform]
 tagline: Real-time multilingual live-commerce broadcasting. One stream, multiple markets, host's voice preserved.
 order: 2
+repo: https://github.com/TyposBro/brivva
 ---
 
 ## Problem
@@ -55,3 +56,11 @@ live, at the same time, with the host's own cloned voice.
 - Vertical focus (Korean live commerce) beats horizontal sprawl
   (generic "translation for everyone") — specific platform
   integrations are the moat, not the ML model
+
+## Status
+
+Development stopped in May 2026 when the funding round did not
+close. The code is open source:
+[github.com/TyposBro/brivva](https://github.com/TyposBro/brivva) —
+the Rust media pipeline, the Cloudflare Workers API, the shared
+contract package, and the OpenTofu infrastructure.

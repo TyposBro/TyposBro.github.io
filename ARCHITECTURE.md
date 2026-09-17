@@ -41,7 +41,7 @@ typosbro-site/
 │   │   │   ├── spiko.ko.md
 │   │   │   ├── spiko.ru.md
 │   │   │   ├── spiko.uz.md
-│   │   │   ├── brivva.en.md      # hidden=true
+│   │   │   ├── brivva.en.md      # archived, open source
 │   │   │   ├── brivva.ko.md
 │   │   │   ├── brivva.ru.md
 │   │   │   ├── brivva.uz.md
@@ -129,14 +129,14 @@ export default defineConfig({
 - Fallback: if a Korean version of a post doesn't exist yet, show
   English with a banner "Available in English only"
 
-## Feature flags (Spiko + Brivva hidden until F-2-7)
+## Feature flags (per-project visibility)
 
 Per-project frontmatter flag:
 
 ```yaml
 ---
 title: Spiko
-hidden: true          # flip to false after F-2-7
+hidden: true          # flip to false to publish
 locale: en
 ---
 ```
@@ -158,7 +158,10 @@ Alternative: single global flag in `src/config.ts`:
 export const SHOW_HIDDEN_PROJECTS = false;
 ```
 
-Both work. Per-project is more surgical (can unhide Spiko before Brivva).
+Both work. Per-project is more surgical. History: Spiko and Brivva were both
+hidden behind the F-2-7 visa gate. Spiko was unlocked when the visa was granted,
+Brivva when its archived code went open source, both on 2026-09-17. The global
+list in `src/config.ts` is currently empty.
 
 ## Content shapes
 

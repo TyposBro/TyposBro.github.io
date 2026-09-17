@@ -44,3 +44,5 @@ subscriptions that aren't accessible at local pricing.
   paywall added 20%+ conversion uplift
 - 44-minute average sessions tell you the content + spaced
   repetition loop is working; optimize for that metric first
+
+Available on [Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko) and the [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914).

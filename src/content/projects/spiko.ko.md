@@ -43,3 +43,5 @@ order: 1
   20%+ 상승
 - 평균 44분 세션은 콘텐츠 + 간격 반복 loop이 동작한다는 신호;
   그 metric을 최우선으로 최적화
+
+Available on [Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko) and the [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914).

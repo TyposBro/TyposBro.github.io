@@ -37,7 +37,18 @@ const projects = all.sort((a, b) => a.data.order - b.data.order);
     </div>
   </section>
 
-  <section class="mb-16">
+    <section class="mb-16">
+    <h2 class="text-xl font-semibold mb-6">{t(locale, 'services.label')}</h2>
+    <ul class="space-y-3 max-w-3xl">
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>{t(locale, 'services.ship')}</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>{t(locale, 'services.rescue')}</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>{t(locale, 'services.backend')}</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>{t(locale, 'services.ai')}</span></li>
+    </ul>
+    <p class="text-sm text-[var(--color-muted)] mt-6 max-w-3xl">{t(locale, 'availability.text')}</p>
+  </section>
+
+<section class="mb-16">
     <h2 class="text-xl font-semibold mb-6">{t(locale, 'projects.featured')}</h2>
     <div class="grid sm:grid-cols-2 gap-6">
       {projects.map((p) => <ProjectCard project={p} locale={locale} />)}

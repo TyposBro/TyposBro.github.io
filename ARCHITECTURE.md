@@ -37,7 +37,7 @@ typosbro-site/
 │   ├── content/
 │   │   ├── config.ts             # Zod schemas for projects + posts
 │   │   ├── projects/
-│   │   │   ├── spiko.en.md       # hidden=true in frontmatter (flip on F-2-7)
+│   │   │   ├── spiko.en.md       # unlocked 2026-09-17 (F-2-7 granted)
 │   │   │   ├── spiko.ko.md
 │   │   │   ├── spiko.ru.md
 │   │   │   ├── spiko.uz.md

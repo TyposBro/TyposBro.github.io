@@ -2,7 +2,7 @@
 title: Spiko English
 key: spiko
 locale: ko
-hidden: true
+hidden: false
 featured: true
 year: 2022
 role: 단독 개발

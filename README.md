@@ -36,8 +36,8 @@ builds + deploys to GitHub Pages.
 - Per-project: `hidden: true` in the Markdown frontmatter. Either
   mechanism hides the project; both must be `false` for display.
 
-Current hidden list: `spiko`, `brivva` (unhide after F-2-7 visa
-lands).
+Current hidden list: `brivva`. `spiko` was unlocked on 2026-09-17, after
+the F-2-7 resident visa was granted.
 
 ## Adding a project
 

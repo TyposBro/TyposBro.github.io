@@ -2,7 +2,7 @@
 title: Spiko English
 key: spiko
 locale: en
-hidden: true
+hidden: false
 featured: true
 year: 2022
 role: Solo builder

@@ -8,8 +8,8 @@
     "resume": "Résumé"
   },
   "hero": {
-    "title": "Software engineer building consumer + infrastructure products.",
-    "subtitle": "Based in Seoul. E-7 visa. Open to senior roles in Korean tech.",
+    "title": "I ship mobile apps end to end, and stay until the release is stable.",
+    "subtitle": "Android and full-stack engineer in Seoul, working remotely with teams anywhere. Kotlin, Jetpack Compose, React Native, Cloudflare. Available for contract work.",
     "cta_projects": "See projects",
     "cta_contact": "Get in touch"
   },
@@ -29,5 +29,16 @@
   "footer": {
     "built_with": "Built with Astro.",
     "source": "Source"
+  },
+  "services": {
+    "label": "What I can take on",
+    "ship": "Ship an Android app end to end, or port an existing iOS app to Android.",
+    "rescue": "Rescue a release: crashes, ANRs, store rejections, billing and subscription integration.",
+    "backend": "Build or fix the backend: Cloudflare Workers, D1, R2, Hono, Node, Postgres.",
+    "ai": "Add AI features to a product that already has users."
+  },
+  "availability": {
+    "label": "What I can take on",
+    "text": "Remote contract, anywhere. Based in Seoul, so my evenings overlap with US mornings. I reply within one business day."
   }
 }

@@ -8,8 +8,8 @@
     "resume": "이력서"
   },
   "hero": {
-    "title": "소비자 제품과 인프라를 엔드 투 엔드로 만드는 소프트웨어 엔지니어.",
-    "subtitle": "서울 거주. E-7 비자. 한국 테크 기업의 시니어 포지션에 관심 있습니다.",
+    "title": "모바일 앱을 처음부터 끝까지 만들고, 안정적으로 배포될 때까지 책임집니다.",
+    "subtitle": "서울 기반의 안드로이드·풀스택 엔지니어입니다. 원격으로 어디의 팀과도 일합니다. Kotlin, Jetpack Compose, React Native, Cloudflare. 계약 업무 문의 환영합니다.",
     "cta_projects": "프로젝트 보기",
     "cta_contact": "연락하기"
   },
@@ -29,5 +29,16 @@
   "footer": {
     "built_with": "Astro로 제작.",
     "source": "소스"
+  },
+  "services": {
+    "label": "맡을 수 있는 일",
+    "ship": "안드로이드 앱을 처음부터 끝까지 개발하거나, 기존 iOS 앱을 안드로이드로 포팅합니다.",
+    "rescue": "릴리스 문제 해결: 크래시, ANR, 스토어 심사 거절, 결제와 구독 연동.",
+    "backend": "백엔드 구축과 개선: Cloudflare Workers, D1, R2, Hono, Node, Postgres.",
+    "ai": "이미 사용자가 있는 제품에 AI 기능 추가."
+  },
+  "availability": {
+    "label": "맡을 수 있는 일",
+    "text": "원격 계약, 지역 무관. 서울 시간대라 제 저녁이 미국 아침과 겹칩니다. 영업일 기준 하루 안에 답장합니다."
   }
 }

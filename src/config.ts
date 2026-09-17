@@ -9,18 +9,19 @@ export const SITE = {
   name: 'Azizbek Umidjonov',
   title: 'Azizbek Umidjonov — Software engineer in Seoul',
   description:
-    'Software engineer building consumer + infrastructure products end-to-end. Seoul. E-7 visa, open to Korean tech.',
+    'Android and full-stack engineer in Seoul. I ship mobile apps end to end and stay until the release is live and stable. Available for remote contract work.',
   url: 'https://typosbro.github.io',
-  email: 'typosbro@proton.me',
+  email: 'khasanjonovich@gmail.com',
   github: 'https://github.com/TyposBro',
   twitter: 'https://x.com/typosbro63199',
   linkedin: 'https://www.linkedin.com/in/typosbro54/',
 } as const;
 
-// Projects currently gated (e.g. Spiko + Brivva hidden until F-2-7).
-// Flip to [] once visa target is achieved. Per-project frontmatter
-// `hidden: true` still applies independently.
-export const HIDDEN_PROJECT_SLUGS = ['spiko', 'brivva'] as const;
+// Projects currently gated. Spiko was unlocked 2026-09-17 once the F-2-7
+// resident visa was granted. Brivva stays hidden until Aziz confirms it is
+// public-safe. Per-project frontmatter `hidden: true` still applies
+// independently, so both mechanisms must be off for display.
+export const HIDDEN_PROJECT_SLUGS = ['brivva'] as const;
 
 export const LOCALES = ['en', 'ko', 'ru', 'uz'] as const;
 export type Locale = (typeof LOCALES)[number];

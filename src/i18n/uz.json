@@ -8,8 +8,8 @@
     "resume": "Rezyume"
   },
   "hero": {
-    "title": "Iste'molchi mahsulotlari va infratuzilmani qurayotgan dasturchi.",
-    "subtitle": "Seulda yashayman. E-7 vizasi. Koreya tech-kompaniyalaridagi senior ish taklihlariga ochiq.",
+    "title": "Mobil ilovalarni boshidan oxirigacha qilaman va reliz barqaror ishlaguncha qolaman.",
+    "subtitle": "Seuldagi Android va full-stack dasturchi, jamoalar bilan masofadan ishlayman. Kotlin, Jetpack Compose, React Native, Cloudflare. Kontrakt ishlar uchun ochiqman.",
     "cta_projects": "Loyihalarni ko'rish",
     "cta_contact": "Bog'lanish"
   },
@@ -29,5 +29,16 @@
   "footer": {
     "built_with": "Astro yordamida qurilgan.",
     "source": "Manba"
+  },
+  "services": {
+    "label": "Nimalarni o'z zimmasiga olaman",
+    "ship": "Android ilovani boshidan oxirigacha qilish yoki mavjud iOS ilovasini Androidga ko'chirish.",
+    "rescue": "Relizni qutqarish: crashlar, ANRlar, do'kon rad etishlari, to'lov va obuna integratsiyasi.",
+    "backend": "Backend qurish yoki tuzatish: Cloudflare Workers, D1, R2, Hono, Node, Postgres.",
+    "ai": "Foydalanuvchilari bor mahsulotga AI funksiyalarini qo'shish."
+  },
+  "availability": {
+    "label": "Nimalarni o'z zimmasiga olaman",
+    "text": "Masofaviy kontrakt, istalgan mamlakat bilan. Seul vaqti: kechqurunim AQSh ertalabiga to'g'ri keladi. Bir ish kuni ichida javob beraman."
   }
 }

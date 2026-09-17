@@ -7,7 +7,7 @@ featured: true
 year: 2022
 role: Solo builder
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
-tagline: AI English exam-prep app I built solo. 100K+ installs, 62K MAU, profitable.
+tagline: AI English exam-prep app I built solo. 100K+ installs, 4.8 stars, cash-positive.
 demo: https://play.google.com/store/apps/details?id=org.milliytechnology.spiko
 order: 1
 ---
@@ -30,10 +30,10 @@ subscriptions that aren't accessible at local pricing.
 
 ## Outcome
 
-- 100,000+ installs on Google Play, 4.8 stars
-- 62,000 MAU, 7,300 DAU
+- 100,000+ installs and 4.8 stars on Google Play
 - 99.9% crash-free sessions
-- Profitable; 44-minute average session length
+- Cash-positive after infrastructure, AI inference, platform fees and taxes
+- 44-minute average session length
 - ~1,320 commits over the lifetime
 
 ## What I learned

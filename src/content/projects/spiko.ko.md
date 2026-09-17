@@ -7,7 +7,7 @@ featured: true
 year: 2022
 role: 단독 개발
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
-tagline: 혼자 만든 영어 학습 앱. 10만+ 다운로드, 62K MAU, 수익성 확보.
+tagline: 혼자 만든 영어 학습 앱. 10만+ 다운로드, 4.8점, 흑자 운영.
 demo: https://play.google.com/store/apps/details?id=org.milliytechnology.spiko
 order: 1
 ---
@@ -29,10 +29,10 @@ order: 1
 
 ## 결과
 
-- 100,000+ 다운로드
-- 62,000 MAU, 7,300 DAU
+- Google Play 다운로드 100,000+ 및 평점 4.8
 - 99.9% 크래시 없는 세션
-- 수익성 확보; 평균 세션 44분
+- 인프라, AI 추론, 플랫폼 수수료, 법인세를 제외하고도 흑자
+- 평균 세션 44분
 - 앱 수명 동안 ~1,320 커밋
 
 ## 배운 것

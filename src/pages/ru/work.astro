@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+
+const locale = 'ru' as const;
+const MIN_ENGAGEMENT = '2,500';
+---
+
+<Base
+  locale={locale}
+  title="Работа со мной — Azizbek Umidjonov"
+  description="Android- и backend-разработка с фиксированным объёмом работ из Сеула. Оплата за результат, а не за часы, по умолчанию асинхронно."
+>
+  <article class="max-w-3xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Работа со мной</h1>
+
+    <p class="text-[var(--color-muted)] mb-10 leading-relaxed">
+      Я Android- и backend-инженер в Сеуле. Беру проекты с фиксированным объёмом работ параллельно
+      с основной занятостью: работаю вечерами и по выходным, по умолчанию асинхронно, и оцениваю не
+      часы, а результат. Минимальная сумма проекта — USD {MIN_ENGAGEMENT}.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">Что я беру на себя</h2>
+    <ul class="space-y-3 mb-12">
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Разработка Android-приложения под ключ или порт существующего iOS-приложения на Android.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Спасение релиза: краши, ANR, отказы модерации, интеграция платежей и подписок.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Разработка и починка бэкенда: Cloudflare Workers, D1, R2, Hono, Node, Postgres.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Добавление AI-функций в продукт, где уже есть пользователи.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">Как устроена работа</h2>
+    <ol class="space-y-4 mb-12">
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">01</span>
+        <span>Вы пишете мне, что именно застряло и как выглядит готовый результат.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">02</span>
+        <span>Я отвечаю в течение одного рабочего дня: объём, фиксированная цена и дата. Если я не могу это сделать, говорю сразу в этом же письме, а не после трёх созвонов.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">03</span>
+        <span>Тридцать процентов предоплата, остаток при сдаче. Всё, что дольше четырёх недель, делится на этапы.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">04</span>
+        <span>Работаю асинхронно и минимум дважды в неделю присылаю письменный отчёт.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">05</span>
+        <span>Код остаётся в вашем репозитории и коммитится под вашей учётной записью.</span>
+      </li>
+    </ol>
+
+    <h2 class="text-xl font-semibold mb-6">Что я не беру</h2>
+    <ul class="space-y-3 mb-12 text-[var(--color-muted)]">
+      <li class="flex gap-3"><span>&times;</span><span>Полную занятость и контракты на сорок часов в неделю. Скажу нет сразу, а не буду тянуть.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Работу в офисе.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Бесплатные тестовые задания и работу за долю без оплаты.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Задачи, по которым потом нельзя понять, получилось или нет.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">Подтверждение</h2>
+    <ul class="space-y-4 mb-6">
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Spiko, приложение для подготовки к экзаменам, которое я сделал и веду один: больше 100 000 установок в Google Play, рейтинг 4.8, прибыль после инфраструктуры, AI-инференса, комиссий платформ и налогов.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Brivva, живые продажи с синхронным переводом: приём RTMP и GRIP, вывод на несколько платформ, клонирование голоса ElevenLabs, распознавание речи Soniox в реальном времени с нативным переводом.</span>
+      </li>
+    </ul>
+    <p class="text-[var(--color-muted)] mb-12 leading-relaxed">
+      Подробнее на <a href={`/${locale}/projects/`} class="underline">странице проектов</a>, код
+      на <a href={SITE.github} class="underline">GitHub</a>.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">С чего начать</h2>
+    <p class="text-[var(--color-muted)] mb-6 leading-relaxed">
+      Напишите на <a href={`mailto:${SITE.email}`} class="underline font-mono">{SITE.email}</a>
+      четыре вещи: что вы делаете, что застряло, срок и диапазон бюджета. Этого достаточно, чтобы
+      сказать, могу ли я помочь и сколько это стоит.
+    </p>
+    <p class="text-sm text-[var(--color-muted)]">
+      Живу в Сеуле. Мой вечер пересекается с утром США, а день — с Европой.
+    </p>
+  </article>
+</Base>

@@ -16,7 +16,8 @@ const base = `/${locale}`;
     <a href={`${base}/`} class="font-semibold tracking-tight">
       {SITE.name}
     </a>
-    <div class="flex items-center gap-6 text-sm">
+    <div class="flex items-center gap-5 text-sm flex-wrap justify-end">
+      <a href={`${base}/work/`}>{t(locale, 'nav.work')}</a>
       <a href={`${base}/projects/`}>{t(locale, 'nav.projects')}</a>
       <a href={`${base}/about/`}>{t(locale, 'nav.about')}</a>
       <a href={`${base}/blog/`}>{t(locale, 'nav.blog')}</a>

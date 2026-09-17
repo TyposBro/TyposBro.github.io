@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+
+const locale = 'uz' as const;
+const MIN_ENGAGEMENT = '2,500';
+---
+
+<Base
+  locale={locale}
+  title="Men bilan ishlash — Azizbek Umidjonov"
+  description="Seuldan belgilangan hajmdagi Android va backend kontrakt ishlari. Soat uchun emas, natija uchun narx, odatda asinxron."
+>
+  <article class="max-w-3xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Men bilan ishlash</h1>
+
+    <p class="text-[var(--color-muted)] mb-10 leading-relaxed">
+      Men Seulda ishlaydigan Android va backend injeneriman. Asosiy ishim bilan birga belgilangan
+      hajmdagi kontrakt loyihalarni olaman: kechqurun va dam olish kunlari ishlayman, odatda
+      asinxron, va soat uchun emas, natija uchun narx qo'yaman. Eng kam loyiha summasi — USD
+      {MIN_ENGAGEMENT}.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">Nimalarni o'z zimmasiga olaman</h2>
+    <ul class="space-y-3 mb-12">
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Android ilovani boshidan oxirigacha qilish yoki mavjud iOS ilovasini Androidga ko'chirish.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Relizni qutqarish: crashlar, ANRlar, do'kon rad etishlari, to'lov va obuna integratsiyasi.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Backend qurish yoki tuzatish: Cloudflare Workers, D1, R2, Hono, Node, Postgres.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Foydalanuvchilari bor mahsulotga AI funksiyalarini qo'shish.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">Ish qanday boradi</h2>
+    <ol class="space-y-4 mb-12">
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">01</span>
+        <span>Nima tiqilib qolganini va tayyor holat qanday ko'rinishini menga yozasiz.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">02</span>
+        <span>Bir ish kuni ichida hajm, qat'iy narx va sanani aytib javob beraman. Agar qila olmasam, uch marta qo'ng'iroqdan keyin emas, o'sha javobning o'zida aytaman.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">03</span>
+        <span>Boshlash uchun 30 foiz, qolgani topshirishda. To'rt haftadan uzoq ishlar bosqichlarga bo'linadi.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">04</span>
+        <span>Asinxron ishlayman va haftada kamida ikki marta yozma hisobot yuboraman.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">05</span>
+        <span>Kod sizning repozitoriyingizda, sizning akkauntingiz nomidan commit qilingan holda qoladi.</span>
+      </li>
+    </ol>
+
+    <h2 class="text-xl font-semibold mb-6">Nimalarni olmayman</h2>
+    <ul class="space-y-3 mb-12 text-[var(--color-muted)]">
+      <li class="flex gap-3"><span>&times;</span><span>To'liq bandlik yoki haftasiga qirq soatlik kontrakt. Ushlab turmasdan darhol rad etaman.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Ofisda ishlash.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>To'lovsiz sinov topshiriqlari va ulush evaziga tekin ish.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Oxirida ish chiqqan yoki chiqmaganini aniqlab bo'lmaydigan vazifalar.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">Dalillar</h2>
+    <ul class="space-y-4 mb-6">
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Spiko, yolg'iz qurgan va yuritayotgan imtihonga tayyorlanish ilovasi: Google Playda 100 000 dan ortiq o'rnatish, 4.8 reyting, infratuzilma, AI inferens, platforma komissiyalari va soliqlardan keyin ham foyda.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Brivva, real vaqtdagi ko'p tilli jonli savdo: RTMP va GRIP qabul qilish, bir nechta platformaga chiqarish, ElevenLabs ovoz klonlash, Soniox real vaqtda nutqni tanish va native tarjima.</span>
+      </li>
+    </ul>
+    <p class="text-[var(--color-muted)] mb-12 leading-relaxed">
+      Batafsil <a href={`/${locale}/projects/`} class="underline">loyihalar sahifasida</a>, kod esa
+      <a href={SITE.github} class="underline">GitHubda</a>.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">Qayerdan boshlash</h2>
+    <p class="text-[var(--color-muted)] mb-6 leading-relaxed">
+      <a href={`mailto:${SITE.email}`} class="underline font-mono">{SITE.email}</a> manziliga to'rt
+      narsani yozing: nima qurmoqchisiz, nima tiqilib qolgan, muddat va byudjet oralig'i. Shu bilan
+      yordam bera olamanmi va qancha turishini aytib bera olaman.
+    </p>
+    <p class="text-sm text-[var(--color-muted)]">
+      Seulda yashayman. Bu yerdagi kechqurun AQSh ertalabiga, kunduzi esa Yevropaga to'g'ri keladi.
+    </p>
+  </article>
+</Base>

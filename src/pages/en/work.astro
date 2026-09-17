@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../config';
+
+const locale = 'en' as const;
+
+// The one number to change. A published floor filters tire-kickers before they reach your
+// inbox; say nothing and you renegotiate the same conversation from zero every time.
+const MIN_ENGAGEMENT = '2,500';
+---
+
+<Base
+  locale={locale}
+  title="Work with me — Azizbek Umidjonov"
+  description="Fixed-scope Android and backend contract work from Seoul. Priced per deliverable, async by default, Seoul evenings overlapping US mornings."
+>
+  <article class="max-w-3xl">
+    <h1 class="text-3xl font-bold tracking-tight mb-6">Work with me</h1>
+
+    <p class="text-[var(--color-muted)] mb-10 leading-relaxed">
+      I am an Android and backend engineer in Seoul. I take on fixed-scope contract projects
+      alongside a full-time role, which means I work evenings and weekends, async by default,
+      and I price per deliverable rather than per hour. Engagements start at USD {MIN_ENGAGEMENT}.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">What I take on</h2>
+    <ul class="space-y-3 mb-12">
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Ship an Android app end to end, or port an existing iOS app to Android.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Rescue a release: crashes, ANRs, store rejections, billing and subscription integration.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Build or fix the backend: Cloudflare Workers, D1, R2, Hono, Node, Postgres.</span></li>
+      <li class="flex gap-3"><span class="text-[var(--color-accent)]">&rarr;</span><span>Add AI features to a product that already has users.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">How an engagement works</h2>
+    <ol class="space-y-4 mb-12">
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">01</span>
+        <span>You email me what is stuck and what done looks like.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">02</span>
+        <span>I reply within one business day with a scope, a fixed price, and a date. If I cannot do it, I tell you in that same reply rather than after three calls.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">03</span>
+        <span>Thirty percent to start, the rest on delivery. Anything longer than four weeks gets milestones.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">04</span>
+        <span>I work async and send a written update at least twice a week, so you are never wondering.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="font-mono text-[var(--color-muted)]">05</span>
+        <span>You get the code, in your repository, committed under your account.</span>
+      </li>
+    </ol>
+
+    <h2 class="text-xl font-semibold mb-6">What I do not take on</h2>
+    <ul class="space-y-3 mb-12 text-[var(--color-muted)]">
+      <li class="flex gap-3"><span>&times;</span><span>Full-time or forty-hour-week contracts. I will say no rather than string you along.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>On-site work.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Unpaid trials or spec work.</span></li>
+      <li class="flex gap-3"><span>&times;</span><span>Anything where neither of us can tell afterwards whether it worked.</span></li>
+    </ul>
+
+    <h2 class="text-xl font-semibold mb-6">Proof</h2>
+    <ul class="space-y-4 mb-6">
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Spiko, an exam-prep app I built and run alone: 100,000+ installs on Google Play, 4.8 stars, cash-positive after infrastructure, AI inference, platform fees and taxes.</span>
+      </li>
+      <li class="flex gap-3">
+        <span class="text-[var(--color-accent)]">&rarr;</span>
+        <span>Brivva, real-time multilingual live commerce: RTMP and GRIP ingest, multi-platform egress, ElevenLabs voice cloning, Soniox real-time speech-to-text with native translation.</span>
+      </li>
+    </ul>
+    <p class="text-[var(--color-muted)] mb-12 leading-relaxed">
+      More detail on the <a href={`/${locale}/projects/`} class="underline">projects page</a>, and the
+      code is on <a href={SITE.github} class="underline">GitHub</a>.
+    </p>
+
+    <h2 class="text-xl font-semibold mb-6">Start here</h2>
+    <p class="text-[var(--color-muted)] mb-6 leading-relaxed">
+      Email <a href={`mailto:${SITE.email}`} class="underline font-mono">{SITE.email}</a> with four
+      things: what you are building, what is stuck, your deadline, and your budget range. That is
+      enough for me to tell you whether I can help, and what it costs.
+    </p>
+    <p class="text-sm text-[var(--color-muted)]">
+      Based in Seoul. Evenings here overlap with US mornings, and afternoons overlap with Europe.
+    </p>
+  </article>
+</Base>

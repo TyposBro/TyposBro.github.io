@@ -4,7 +4,7 @@ key: spiko
 locale: en
 hidden: false
 featured: true
-year: 2022
+year: 2025
 role: Solo builder
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
 tagline: AI English exam-prep app I built solo. 100K+ installs, 4.8 stars, cash-positive.
@@ -45,4 +45,4 @@ subscriptions that aren't accessible at local pricing.
 - 44-minute average sessions tell you the content + spaced
   repetition loop is working; optimize for that metric first
 
-Available on [Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko) and the [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914).
+Available on [Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko) and the [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914). Product updates and support run through the [Telegram channel](https://t.me/MilliyTechnology), with 1,598 subscribers.

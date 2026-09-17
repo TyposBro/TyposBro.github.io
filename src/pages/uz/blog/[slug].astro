@@ -3,10 +3,22 @@ import Base from '../../../layouts/Base.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
+  // English content stands in where no Uzbek translation exists — see the note
+  // in src/pages/ru/blog/[slug].astro.
   const all = await getCollection('posts', ({ data }) =>
-    data.locale === 'uz' && !data.draft
+    (data.locale === 'uz' || data.locale === 'en') && !data.draft
   );
-  return all.map((post) => ({ params: { slug: post.data.key }, props: { post } }));
+  const byKey = new Map<string, (typeof all)[number]>();
+  for (const post of all) {
+    const existing = byKey.get(post.data.key);
+    if (!existing || (existing.data.locale === 'en' && post.data.locale === 'uz')) {
+      byKey.set(post.data.key, post);
+    }
+  }
+  return Array.from(byKey.values()).map((post) => ({
+    params: { slug: post.data.key },
+    props: { post },
+  }));
 }
 
 interface Props {

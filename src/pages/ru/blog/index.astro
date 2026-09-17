@@ -5,9 +5,18 @@ import { getCollection } from 'astro:content';
 const locale = 'ru' as const;
 
 const allPosts = await getCollection('posts', ({ data }) =>
-  data.locale === locale && !data.draft
+  (data.locale === locale || data.locale === 'en') && !data.draft
 );
-const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const byKey = new Map<string, (typeof allPosts)[number]>();
+for (const post of allPosts) {
+  const existing = byKey.get(post.data.key);
+  if (!existing || (existing.data.locale === 'en' && post.data.locale === locale)) {
+    byKey.set(post.data.key, post);
+  }
+}
+const posts = Array.from(byKey.values()).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 
 <Base locale={locale} title="Блог — Azizbek Umidjonov">

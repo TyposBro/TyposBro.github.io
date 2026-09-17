@@ -4,7 +4,7 @@ key: spiko
 locale: ko
 hidden: false
 featured: true
-year: 2022
+year: 2025
 role: 단독 개발
 stack: [Kotlin, Jetpack Compose, Next.js, Cloudflare Workers]
 tagline: 혼자 만든 영어 학습 앱. 10만+ 다운로드, 4.8점, 흑자 운영.
@@ -44,4 +44,4 @@ order: 1
 - 평균 44분 세션은 콘텐츠 + 간격 반복 loop이 동작한다는 신호;
   그 metric을 최우선으로 최적화
 
-Available on [Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko) and the [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914).
+[Google Play](https://play.google.com/store/apps/details?id=org.milliytechnology.spiko)와 [App Store](https://apps.apple.com/us/app/spiko-ai-exam-prep/id6763239914)에서 만나보실 수 있습니다. 제품 업데이트와 지원은 [텔레그램 채널](https://t.me/MilliyTechnology)에서 운영하며, 구독자 1,598명입니다.

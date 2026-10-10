@@ -5,3 +5,6 @@ dist/
 *.log
 .env
 .env.local
+
+# wrangler local dev state (miniflare caches, sqlite, traces)
+.wrangler/

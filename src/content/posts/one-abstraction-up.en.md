@@ -18,7 +18,7 @@ Each layer absorbed the one beneath it, and each layer had its own thing you had
 
 <div class="not-prose my-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-border)]/20 p-5">
   <p class="text-sm text-[var(--color-muted)] m-0 mb-3">I gave this as a talk. The slides are self-contained and run in the browser.</p>
-  <a href="/talks/one-abstraction-up.html" class="font-semibold text-[var(--color-accent)] hover:underline">Open the deck &rarr;</a>
+  <a href="/talks/one-abstraction-up" class="font-semibold text-[var(--color-accent)] hover:underline">Open the deck &rarr;</a>
 </div>
 
 ## What the test used to look like

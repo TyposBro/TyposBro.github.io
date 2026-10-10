@@ -10,7 +10,7 @@ export const SITE = {
   title: 'Azizbek Umidjonov — Software engineer in Seoul',
   description:
     'Android and full-stack engineer in Seoul. I ship mobile apps end to end and stay until the release is live and stable. Available for remote contract work.',
-  url: 'https://typosbro.github.io',
+  url: 'https://typosbro.me',
   email: 'khasanjonovich@gmail.com',
   github: 'https://github.com/TyposBro',
   twitter: 'https://x.com/typosbro63199',

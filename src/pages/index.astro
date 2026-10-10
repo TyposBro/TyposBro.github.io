@@ -1,7 +1,29 @@
 ---
-// Root → redirect to English. Real routing via per-locale /en/, /ko/, etc.
-// (Astro i18n with prefixDefaultLocale: true mandates the /en/ prefix.)
+// Root → English homepage.
+//
+// Astro's i18n with prefixDefaultLocale: true REQUIRES a root index page: it
+// builds the "/ → default locale" redirect from this file. So this exists for
+// the build to succeed, and it is the fallback redirect on GitHub Pages, which
+// has no middleware.
+//
+// On Cloudflare Pages this stub is normally never seen: functions/_middleware.ts
+// rewrites "/" to the English page at the edge, so there is no redirect at all
+// and the browser stays on the root URL.
+//
+// Delay is 0 and the body is empty on purpose. The previous version waited two
+// seconds and printed "Redirecting from / to /en/", which is what looked broken.
+import { SITE } from '../config';
 ---
 
-<meta http-equiv="refresh" content="0; url=/en/" />
-<link rel="canonical" href="/en/" />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <link rel="canonical" href={`${SITE.url}/en/`} />
+    <title>Azizbek Umidjonov</title>
+    <script is:inline>location.replace('/en/');</script>
+  </head>
+  <body></body>
+</html>

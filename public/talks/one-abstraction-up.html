@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One abstraction up — what AI actually changes</title>
+<style>
+  :root {
+    --bg: #0d0f13;
+    --panel: #14171d;
+    --ink: #e8e6e1;
+    --dim: #9aa0ab;
+    --line: #262b34;
+    --accent: #ff5b3e;
+    --warm: #ffb08a;
+    --good: #7ed6a0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .deck { position: relative; }
+  .slide {
+    display: none;
+    min-height: 100vh;
+    padding: 7vh 9vw 12vh;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide.active { display: flex; }
+  .slide h1 {
+    font-size: clamp(30px, 5.2vw, 68px);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin: 0 0 28px;
+    font-weight: 640;
+    max-width: 20ch;
+  }
+  .slide h2 {
+    font-size: clamp(22px, 3.1vw, 40px);
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    margin: 0 0 30px;
+    font-weight: 620;
+    max-width: 26ch;
+  }
+  .slide h3 {
+    font-size: clamp(15px, 1.5vw, 20px);
+    margin: 0 0 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.01em;
+  }
+  p, li { font-size: clamp(15px, 1.62vw, 24px); color: var(--ink); }
+  p.lead { color: var(--dim); max-width: 44ch; }
+  p.sub { color: var(--dim); font-size: clamp(14px, 1.35vw, 20px); max-width: 52ch; }
+  ul { margin: 0; padding-left: 1.15em; max-width: 46ch; }
+  li { margin: 0 0 14px; }
+  li.dim { color: var(--dim); }
+  strong { font-weight: 660; color: #fff; }
+  em { color: var(--warm); font-style: normal; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.86em;
+    background: #1b2028;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 2px 7px;
+    color: #cfe0ff;
+  }
+  .kicker {
+    font-size: clamp(12px, 1.1vw, 15px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 0 0 20px;
+  }
+  .grid { display: grid; gap: 22px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 860px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px;
+  }
+  .card h3 { margin-top: 0; }
+  .card p { font-size: clamp(14px, 1.35vw, 19px); margin: 0; color: var(--dim); }
+  .card .num {
+    font-size: clamp(26px, 3.4vw, 44px);
+    font-weight: 680;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+    line-height: 1;
+  }
+  table { border-collapse: collapse; width: 100%; max-width: 62ch; }
+  th, td {
+    text-align: left;
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(14px, 1.4vw, 21px);
+    vertical-align: top;
+  }
+  th { color: var(--dim); font-weight: 560; font-size: clamp(12px, 1.15vw, 16px); text-transform: uppercase; letter-spacing: 0.1em; }
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; max-width: 62ch; }
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: clamp(12px, 1.2vw, 17px);
+  }
+  .arrow { color: var(--dim); font-size: clamp(12px, 1.2vw, 17px); }
+  .ladder { display: flex; flex-direction: column; gap: 8px; max-width: 54ch; }
+  .rung {
+    display: flex; justify-content: space-between; gap: 18px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-left: 3px solid var(--line);
+    border-radius: 10px; padding: 12px 18px;
+    font-size: clamp(13px, 1.32vw, 19px);
+  }
+  .rung.now { border-left-color: var(--accent); background: #171d27; }
+  .rung.gone { color: var(--dim); }
+  .rung .proof { color: var(--dim); text-align: right; }
+  .rung.now .proof { color: var(--accent); }
+  .quote {
+    border-left: 3px solid var(--accent);
+    padding: 6px 0 6px 22px;
+    margin: 0;
+    font-size: clamp(16px, 1.9vw, 28px);
+    max-width: 40ch;
+    color: #fff;
+  }
+  .foot {
+    position: fixed;
+    left: 9vw; right: 9vw; bottom: 3.4vh;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--dim); font-size: 13px; letter-spacing: 0.06em;
+  }
+  .bar { position: fixed; left: 0; top: 0; height: 2px; background: var(--accent); transition: width .22s ease; }
+  .hint { color: #5d6470; }
+  .tag {
+    display: inline-block; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--good); border: 1px solid #2c4a37; background: #16211a;
+    border-radius: 999px; padding: 4px 11px; margin-bottom: 18px;
+  }
+  .tag.warn { color: var(--warm); border-color: #4a3a24; background: #221b12; }
+  @media print {
+    .slide { display: flex !important; page-break-after: always; min-height: auto; padding: 40px; }
+    .foot, .bar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="deck" id="deck">
+
+  <section class="slide active">
+    <p class="kicker">Talk draft &middot; 2026</p>
+    <h1>One abstraction up</h1>
+    <p class="lead">What AI actually changes about building software &mdash; and what it does not.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The pattern</p>
+    <h2>Every layer absorbs the one below it</h2>
+    <p class="sub">And after a lag, the lower skill stops being a differentiator. Hiring does not reward effort. It rewards whatever is scarce at the current layer.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The ladder</p>
+    <div class="ladder">
+      <div class="rung gone"><span>Punch cards</span><span class="proof">wiring the machine</span></div>
+      <div class="rung gone"><span>Assembly</span><span class="proof">talking to the hardware</span></div>
+      <div class="rung gone"><span>C</span><span class="proof">managing memory</span></div>
+      <div class="rung gone"><span>Java, OOP</span><span class="proof">structuring large systems</span></div>
+      <div class="rung gone"><span>Python, JS</span><span class="proof">writing the program</span></div>
+      <div class="rung gone"><span>React, frameworks</span><span class="proof">assembling an application</span></div>
+      <div class="rung now"><span>Orchestrating AI</span><span class="proof">shipping and operating a product</span></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">What the old tests looked like</p>
+    <div class="grid g2">
+      <div class="card"><h3>2010s</h3><p>A calculator, or a small game. Basic Python was enough to get hired.</p></div>
+      <div class="card"><h3>2020s</h3><p>A CRUD app. A Netflix clone with login, a database and a few screens.</p></div>
+      <div class="card"><h3>Now</h3><p>All of that, and more, is a prompt away. The artifact stopped being the proof.</p></div>
+      <div class="card"><h3>So what is the proof?</h3><p>Something live. Real users. A bug you had to fix at 2am. Consequences.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Correction people get wrong</p>
+    <h2>The abstraction removes the need to demonstrate the layer below</h2>
+    <p class="sub">It does not remove the need to understand it. React developers still need the DOM. AI-assisted builders still need HTTP, data models and failure modes.</p>
+    <p class="sub"><em>Say &ldquo;the test moved&rdquo;, never &ldquo;you are obsolete&rdquo;.</em></p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The adoption gap &mdash; sourced</p>
+    <div class="grid g4">
+      <div class="card"><p class="num">2.2%</p><p>of US households had a paid AI subscription, April 2026.</p></div>
+      <div class="card"><p class="num">0.1%</p><p>was the same figure in January 2023. Fast growth, tiny base.</p></div>
+      <div class="card"><p class="num">~30%</p><p>of S&amp;P 500 companies report some &ldquo;quantifiable impact&rdquo; from AI.</p></div>
+      <div class="card"><p class="num">~2%</p><p>of those same companies track any metric for it at all.</p></div>
+    </div>
+    <p class="sub" style="margin-top:26px">Adoption is broad and shallow. Even the companies claiming impact mostly cannot measure it. <strong>The gap is not model quality. It is execution.</strong></p>
+    <p class="sub" style="margin-top:14px; color:#5d6470">Source: PNC Research internal data (13 July 2026), via a16z <em>State of Markets II</em>. Note: the 2.2% measures <strong>paying</strong> households, not usage &mdash; free usage is far larger. Say &ldquo;paid penetration&rdquo;, not &ldquo;adoption&rdquo;.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Because look at the ceiling</p>
+    <h2>What people are already doing</h2>
+    <ul>
+      <li>Porting PS5 drivers to PC.</li>
+      <li>Porting and modding games, merging two unrelated titles into one.</li>
+      <li>Multi-day autonomous pipelines that research, build, test and deploy.</li>
+      <li>A psychiatrist generating music with AI as a tool for his patients.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The bottleneck, from MIT</p>
+    <h2>95% of enterprise AI pilots produce no measurable impact</h2>
+    <p class="sub">MIT NANDA, <em>The GenAI Divide: State of AI in Business 2025</em>. 150 leader interviews, 350 employees surveyed, 300 public deployments analysed.</p>
+    <p class="sub" style="margin-top:22px">The report&rsquo;s own conclusion: the problem is <strong>not the quality of the models</strong>. It is the <strong>learning gap</strong> &mdash; for the tools and for the organizations using them.</p>
+    <p class="sub" style="margin-top:14px; color:#5d6470">Say the criticism before someone else does: the sample skews to large enterprises and &ldquo;failure&rdquo; is defined loosely. The finding that survives is integration, not capability. Lead author: startups run by 19- and 20-year-olds &ldquo;pick one pain point, execute well&rdquo; and go from zero to $20M in a year.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">So the bottleneck is orchestration</p>
+    <h2>Capability is abundant. Integration is scarce.</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Models</h3><p>Solved, commoditized, cheap, improving monthly.</p></div>
+      <div class="card"><h3>Pilots</h3><p>Bought, demoed, shelved. Stuck at the starting line.</p></div>
+      <div class="card"><h3>Orchestration</h3><p>Rare. Picking one pain point and running it end to end.</p></div>
+    </div>
+    <p class="sub" style="margin-top:26px">Which is why the reward goes to whoever can take the gains of the technology to people who are not getting them yet.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Before you pick a market</p>
+    <h2>TAM is a ceiling, not an access route</h2>
+    <table>
+      <tr><th>Number</th><th>What it answers</th></tr>
+      <tr><td>Total market</td><td>How big the prize is if everything goes right</td></tr>
+      <tr><td>Reachable segment</td><td>Who you can actually get in front of, this year</td></tr>
+      <tr><td>Your channel</td><td>How the first thousand users arrive, by name</td></tr>
+    </table>
+    <p class="sub" style="margin-top:24px">A 2B market you cannot reach is worth less than a 50M market with distribution. <strong>Name all three, or the size is just a borrowed benchmark.</strong></p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">My own case</p>
+    <h2>I built a DAG of agents that ships a product</h2>
+    <div class="flow">
+      <span class="step">Read the MS certificate spec</span><span class="arrow">&rarr;</span>
+      <span class="step">Construct test DNA</span><span class="arrow">&rarr;</span>
+      <span class="step">Find published test books</span><span class="arrow">&rarr;</span>
+      <span class="step">Scrape and OCR them</span><span class="arrow">&rarr;</span>
+      <span class="step">Solve every question</span><span class="arrow">&rarr;</span>
+      <span class="step">Verify the answers</span><span class="arrow">&rarr;</span>
+      <span class="step">Build gradient descent</span><span class="arrow">&rarr;</span>
+      <span class="step">Deploy backend</span><span class="arrow">&rarr;</span>
+      <span class="step">Frontend and app UI</span>
+    </div>
+    <p class="sub" style="margin-top:26px">Not one task automated. A workflow, end to end, days long, on the free tier of a serverless platform.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">And it has real numbers</p>
+    <div class="grid g4">
+      <div class="card"><p class="num">150K+</p><p>learners on the flagship product.</p></div>
+      <div class="card"><p class="num">1M+</p><p>practice results checked by AI.</p></div>
+      <div class="card"><p class="num">4.8</p><p>store rating across Google Play and the App Store.</p></div>
+      <div class="card"><p class="num">4</p><p>exam modules, Speaking, Writing, Reading and Listening, A1 to C2.</p></div>
+    </div>
+    <p class="sub" style="margin-top:26px">Shipped end to end: iOS, Android and web, in Uzbek and Russian, marketed to a market that already had an incumbent. <strong>Live at spiko.uz.</strong></p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">What the pipeline actually produced</p>
+    <div class="grid g2">
+      <div class="card"><h3>Cost</h3><p>Runs on free-tier serverless. Holds thousands of users before a bill exists.</p></div>
+      <div class="card"><h3>Product</h3><p>A live test-prep engine, competing where an incumbent already sits.</p></div>
+      <div class="card"><h3>The work I did</h3><p>Ideas, orchestration, verification, product decisions. Not typing.</p></div>
+      <div class="card"><h3>The work that remains</h3><p>Getting users. Activation, retention, conversion, and finding fit.</p></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Who is talking</p>
+    <h2>Azizbek Umidjonov</h2>
+    <ul>
+      <li>Android and full-stack engineer, based in Seoul.</li>
+      <li>Builds AI education products used by students in Uzbekistan — <code>spiko.uz</code> and <code>arbee.uz</code>, under Milliy Technology.</li>
+      <li>Shipped a live product to 150K+ learners largely by orchestrating AI, which is the reason this talk exists.</li>
+      <li>Works remotely with teams anywhere. <code>typosbro.me</code></li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Where the moat moved</p>
+    <table>
+      <tr><th>&nbsp;</th><th>Was</th><th>Is</th></tr>
+      <tr><td>Scarce</td><td>Writing the code</td><td>Operating the thing</td></tr>
+      <tr><td>Proof</td><td>The artifact</td><td>The users</td></tr>
+      <tr><td>Hard part</td><td>Building it</td><td>Getting anyone to care</td></tr>
+      <tr><td>Failure mode</td><td>It does not compile</td><td>It compiles and nobody comes</td></tr>
+    </table>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">The durable skill</p>
+    <h2>Not the current tool. The ability to be re-certified at the next layer.</h2>
+    <p class="sub">Each cycle absorbs the last one. The framework you learn today is the CRUD app of 2029. What survives is your rate of re-registration.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">So what do you do on Monday</p>
+    <ul>
+      <li>Ship something small that a real person can use. Ten users beats zero users.</li>
+      <li>Keep it running. Fix one production bug. That is the story that gets you hired.</li>
+      <li>Contribute where other people depend on your work.</li>
+      <li>Get paid for something, once, at any size.</li>
+      <li class="dim">And validate before you analyse: the market is genuinely brutal right now. That part is real.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Close</p>
+    <blockquote class="quote">The gap is not model quality. It is how many ideas get executed end to end.</blockquote>
+    <p class="sub" style="margin-top:30px">Two percent pay for this. The other ninety-eight percent are still writing emails with it.</p>
+  </section>
+
+  <section class="slide">
+    <p class="kicker">Notes to self &mdash; delete before presenting</p>
+    <div class="grid g2">
+      <div class="card"><h3>Now sourced</h3><p>2.2% of US households paid, April 2026 (PNC Research via a16z State of Markets II). The 30%/2% S&amp;P 500 split is from the same piece. The deck quotes the number; do not round it back down to a guess.</p></div>
+      <div class="card"><h3>My timeline</h3><p>AI-pilled around January 2026. Before that: mostly copy-pasting from earlier models. The iOS move was recent, not an eighteen-month call.</p></div>
+      <div class="card"><h3>Honest state</h3><p>The engine is live and pre-revenue. Do not imply traction that does not exist. The pipeline is the story.</p></div>
+      <div class="card"><h3>Order that works</h3><p>Validate the market first, then the frame, then the smallest first step. Skipping validation is what makes people defensive.</p></div>
+      <div class="card"><h3>Sources</h3><p>Household paid penetration: PNC Research via a16z State of Markets II. Enterprise pilots: MIT NANDA, The GenAI Divide 2025, via Fortune. Market-first framework: Michia Rohrssen, &ldquo;Give Me 24 Minutes&hellip;&rdquo; &mdash; his framing, cited as such.</p></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="foot">
+  <span>One abstraction up</span>
+  <span class="hint">&larr; &rarr; to move &middot; F for fullscreen &middot; P to print</span>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const bar = document.getElementById('bar');
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    location.hash = String(i + 1);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+    if (e.key === 'p' || e.key === 'P') window.print();
+  });
+  document.addEventListener('click', (e) => show(i + (e.clientX < window.innerWidth * 0.3 ? -1 : 1)));
+  show(parseInt(location.hash.replace('#', ''), 10) - 1 || 0);
+</script>
+</body>
+</html>

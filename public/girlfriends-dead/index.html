@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Girlfriend&rsquo;s Dead &mdash; a fan-made cartoon</title>
+<meta name="description" content="An original animated cartoon synced live to The Vandals' 'My Girlfriend's Dead' via YouTube's embedded player. Open-source code." />
+<link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="logo">&#9760;</span>
+    <div>
+      <h1>My Girlfriend&rsquo;s Dead</h1>
+      <p class="sub">a fan-made cartoon &middot; song by <strong>The Vandals</strong></p>
+    </div>
+  </div>
+  <nav class="links">
+    <a href="https://www.youtube.com/watch?v=O8Sl_-reaBo" target="_blank" rel="noopener">song on YouTube</a>
+    <a href="https://github.com/TyposBro/TyposBro.github.io" target="_blank" rel="noopener">source code</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="stage-card">
+    <canvas id="stage" width="1280" height="720" aria-label="Animated cartoon"></canvas>
+    <div class="scrub" id="bar" title="Seek">
+      <div class="scrub-fill" id="fill"></div>
+    </div>
+    <div class="controls">
+      <button id="play" class="btn">&#9654;  Play</button>
+      <button id="restart" class="btn ghost">&#8617;  Restart</button>
+      <div class="readout">
+        <span id="t">0:00 / 2:39</span>
+        <span class="dot">&middot;</span>
+        <span class="scene-label">scene: <b id="scene">&mdash;</b></span>
+      </div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <div class="card">
+      <h2>Audio &mdash; official YouTube player</h2>
+      <div class="yt-frame"><div id="yt"></div></div>
+      <p class="status" id="status">connecting to YouTube&hellip;</p>
+      <p class="fine">
+        The music streams from YouTube&rsquo;s own player. Press play on either
+        control &mdash; the cartoon follows the song&rsquo;s clock, so pausing or
+        scrubbing stays in sync.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>What am I looking at?</h2>
+      <p>
+        Every frame of this cartoon is drawn from scratch in JavaScript on a
+        <code>&lt;canvas&gt;</code> &mdash; a rigged 2D character, hand-coded
+        scenes, timed to the song&rsquo;s real tempo.
+      </p>
+      <p class="fine">
+        No music files are hosted here. The song comes from YouTube; the
+        animation is original work and its code is open source.
+      </p>
+    </div>
+  </aside>
+</main>
+
+<footer class="foot">
+  <span>Made as a passion project &middot; animation code open source</span>
+  <span>Not affiliated with The Vandals</span>
+</footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

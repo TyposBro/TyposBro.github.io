@@ -126,6 +126,21 @@ const P_STRANGER = {
 /** the hero */
 const HERO = (o = {}) => defaultPose(Object.assign({ x: 640, y: 560, hip_h: 138 }, o));
 
+function performanceBow(pen, ctx, t) {
+  const bow = Math.sin(Math.min(1, t / 1.4) * Math.PI) * 0.7;
+  for (let i = 0; i < 4; i++) {
+    const p = HERO({ x: 220 + i * 270, y: 590, sh_l: -0.6, sh_r: 0.6, el_l: -1.4 + Math.sin(t * 14) * 0.2, el_r: -1.4 });
+    p.face = face('happy', { mouth: 'smile' });
+    drawChar(pen, p, i % 2 ? P_COWORKER : P_BOSS);
+  }
+  const p = HERO({ x: 640, y: 560, lean: bow, sh_l: -1.3, sh_r: 1.3, el_l: -0.6, el_r: -0.6 });
+  p.face = face('happy', { mouth: 'grin', mouthW: 24 });
+  drawChar(pen, p, PAL.punk);
+  if (t > 1.3) {
+    for (let i = 0; i < 3; i++) props.flower(pen, 480 + i * 160, 650 - Math.sin(clamp((t - 1.3) / 0.8) * Math.PI) * 210, 0.75, [240, 90, 120]);
+  }
+}
+
 /* ================================================================== gags */
 
 export const GAGS = {
@@ -333,7 +348,7 @@ export const GAGS = {
     doc.face = face('closed', { brow: 0.55, mouth: 'frown', mouthW: 16, mouthH: 5 });
     drawChar(pen, doc, P_COWORKER);
     iris(ctx, t, len);
-    caption(pen, 'leukemia\u2026', 46);
+    caption(pen, 'VERSION 1', 46);
   },
 
   // Death story 2: worse, and sillier.
@@ -351,7 +366,7 @@ export const GAGS = {
     by.face = face('normal', { eye: 0.9, brow: 0.35, mouth: 'wave', mouthW: 12, mouthH: 4 });
     drawChar(pen, by, P_COWORKER);
     iris(ctx, t, len);
-    caption(pen, 'or bulimia\u2026', 92);
+    caption(pen, 'REVISED EDITION', 92);
   },
 
   // Death story 3: the truck. Full cartoon spectacle.
@@ -381,7 +396,7 @@ export const GAGS = {
       for (let i = 0; i < 4; i++) pen.arc(hx - 20 + i * 13, 560, 10, 8, 0, Math.PI, 4, OUTLINE);
     }
     iris(ctx, t, len);
-    caption(pen, 'or a truck\u2026', 92);
+    caption(pen, 'BUDGET INCREASED', 92);
   },
 
   /* ----------------------------------------------------------- chorus 2 -- */
@@ -564,7 +579,7 @@ export const GAGS = {
     p.face = face('normal', { eye: 0.85, brow: 0.4, brow_lift: 2, mouth: 'frown', mouthW: 16, mouthH: 5 });
     drawChar(pen, p, PAL.punk);
     if (t > 1.2) {
-      caption(pen, 'it\u2019s a total lie\u2026', 300, [230, 226, 232]);
+      caption(pen, 'UNRELIABLE NARRATOR', 300, [230, 226, 232]);
     }
   },
 
@@ -732,8 +747,8 @@ export const GAGS = {
       const a = HERO({ x, y: 600, hip_h: 112, lean: 0.04, sh_l: 0.3, el_l: -0.4, sh_r: 0.3, el_r: -0.4 });
       a.face = face('closed', { brow: 0.5, mouth: 'frown', mouthW: 14, mouthH: 4 });
       ctx.save(); ctx.translate(x, 600); ctx.rotate(nod); ctx.translate(-x, -600);
-      ctx.restore();
       drawChar(pen, a, i % 2 ? P_COWORKER : P_OLD);
+      ctx.restore();
     }
     // him, standing on a chair like a podium, arms wide
     const p = HERO({ x: 640, y: 470, hip_h: 128, lean: 0.02, sh_l: -1.6, el_l: -1.2, sh_r: 1.6, el_r: -1.2 });
@@ -783,11 +798,96 @@ export const GAGS = {
     p.face = face('happy', { eye: 1.1, mouth: 'grin', mouthW: 22, mouthH: 10, blush: 1 });
     drawChar(pen, p, PAL.punk);
     props.medal(pen, 780, 330 - bob, 1.0, t);
-    drawChar(pen, HERO({ x: 300, y: 586, hip_h: 126, lean: 0.02, sh_l: 0.9, el_l: -0.9, sh_r: 0.9, el_r: -0.9 }), P_BOSS);
     // a black mourning banner carried aloft on a pole
     pen.line([[392, 262 - bob], [392, 566 - bob]], 6, [96, 82, 70]);
     pen.rrect([368, 190 - bob], [676, 262 - bob], 7, [24, 22, 30], OUTLINE, 5);
     pen.text('\u2665', 522, 244 - bob, 44, [244, 240, 246], {});
+  },
+
+  'out-tears'(pen, ctx, t) {
+    bg('graveyard', pen, t);
+    const cue = Math.sin(t * 9);
+    for (let i = 0; i < 4; i++) {
+      const x = 220 + i * 270;
+      const p = HERO({ x, y: 590, lean: Math.sin(t * 5 + i) * 0.06 });
+      p.face = face('closed', { mouth: 'bigo', mouthH: 14, tear: 1 });
+      drawChar(pen, p, i % 2 ? P_COWORKER : P_BOSS);
+      // Tears become fountains when he raises the baton.
+      for (let j = 0; j < 5; j++) {
+        const q = (t * 1.4 + j / 5) % 1;
+        pen.ellipse(x + (i % 2 ? 1 : -1) * q * 100, 300 - Math.sin(q * Math.PI) * (70 + t * 25) + q * 140, 5, 9, [130, 205, 255]);
+      }
+    }
+    const p = HERO({ x: 640, y: 520, sh_l: -1.8, sh_r: 1.5 + cue * 0.4, el_r: -0.7 });
+    p.face = face('happy', { mouth: 'grin', mouthW: 24 });
+    drawChar(pen, p, PAL.punk);
+    pen.line([[730, 315], [780 + cue * 24, 210]], 5, [255, 244, 210]);
+  },
+
+  'out-autograph'(pen, ctx, t) {
+    bg('graveyard', pen, t);
+    const p = HERO({ x: 560, y: 570, sh_r: 1.1, el_r: -0.8 });
+    p.face = face('happy', { mouth: 'grin', mouthW: 24 });
+    drawChar(pen, p, PAL.punk);
+    const fan = HERO({ x: 870, y: 580, sh_l: -1.1, el_l: -0.8 });
+    fan.face = face('heart', { mouth: 'smile' });
+    drawChar(pen, fan, P_COWORKER);
+    const count = Math.min(5, Math.floor(t * 2.4));
+    for (let i = 0; i <= count; i++) {
+      const x = 620 + i * 23, y = 410 + i * 15;
+      pen.rrect([x, y], [x + 110, y + 75], 3, [255, 246, 220], OUTLINE, 3);
+      pen.line([[x + 15, y + 45], [x + 30, y + 22], [x + 45, y + 50], [x + 62, y + 27], [x + 92, y + 40]], 3, [65, 62, 85]);
+    }
+    pen.line([[650, 405], [690 + Math.sin(t * 18) * 18, 360]], 6, [235, 68, 95]);
+    if (t > 1.7) smirk(pen, 560, 310, t - 1.7);
+  },
+
+  'out-encore'(pen, ctx, t) {
+    bg('graveyard', pen, t);
+    performanceBow(pen, ctx, t);
+  },
+
+  'out-solo'(pen, ctx, t) {
+    bg('street', pen, t);
+    const hit = Math.sin(t * 18);
+    const d = HERO({ x: 520, y: 580, sh_l: -1.1 + hit * 0.5, sh_r: 1.1 - hit * 0.5, el_l: -0.8, el_r: -0.8 });
+    d.face = face('happy', { mouth: 'grin' });
+    drawChar(pen, d, P_COWORKER);
+    props.drum(pen, 520, 440, 1.2);
+    pen.line([[420, 360], [470, 420 + hit * 26]], 7, [235, 199, 143]);
+    pen.line([[620, 360], [570, 420 - hit * 26]], 7, [235, 199, 143]);
+    fx.burst(pen, 520, 440, (t % 0.7) / 0.7, { n: 8, r0: 65, r1: 150, col: [255, 220, 130] });
+    const p = HERO({ x: 930, y: 570, lean: -0.12, sh_l: 0.2, sh_r: -0.2 });
+    p.face = face('normal', { brow: -0.6, mouth: 'frown', pupil: [-0.8, 0] });
+    drawChar(pen, p, PAL.punk);
+  },
+
+  'out-conductor'(pen, ctx, t) {
+    GAGS['out-procession'](pen, ctx, t);
+    // He insists the band follow HIS increasingly absurd tempo.
+    const k = Math.min(1, t / 0.5);
+    ctxAlpha(pen, k, () => {
+      pen.line([[835, 300], [900 + Math.sin(t * 15) * 45, 180]], 7, [255, 244, 210]);
+      if (t > 1) fx.burst(pen, 780, 280, (t % 0.7) / 0.7, { n: 9, r0: 65, r1: 190, col: [255, 223, 120] });
+    });
+  },
+
+  'out-cover'(pen, ctx, t) {
+    bg('street', pen, t);
+    const witness = HERO({ x: 890, y: 580, lean: -0.06 });
+    witness.face = face('normal', { brow: -0.5, pupil: [-0.8, 0], mouth: 'flat' });
+    drawChar(pen, witness, P_NEIGHBOUR);
+    if (t < 1.1) fx.bubble(pen, 910, 240, 110, 100, '?', t);
+    const sell = clamp((t - 0.6) / 0.35);
+    const p = HERO({ x: 520, y: 570, lean: -0.13 * sell, sh_l: -1.7 * sell, sh_r: 1.7 * sell, el_l: -0.6, el_r: -0.6 });
+    p.face = face('closed', { tear: sell, mouth: 'bigo', mouthH: 18 * sell });
+    drawChar(pen, p, PAL.punk);
+    if (t > 1.2) { witness.face = face('closed', { tear: 1, mouth: 'frown' }); drawChar(pen, witness, P_NEIGHBOUR); }
+  },
+
+  'out-bow'(pen, ctx, t) {
+    bg('street', pen, t);
+    performanceBow(pen, ctx, t);
   },
 
   'out-coffin'(pen, ctx, t, len) {
@@ -871,7 +971,7 @@ export const GAGS = {
     ctx.save(); ctx.translate(640, 320); ctx.scale(z, z); ctx.translate(-640, -320);
     pen.posterText('THE END', 640, 300, 124, [255, 248, 240], { outline: OUTLINE, ow: 12, shadow: [226, 46, 84], sx: 7, sy: 8 });
     ctx.restore();
-    if (t > 1.2) pen.text('she never found out', 640, 420, 24, [230, 224, 232], {});
+    if (t > 1.2) pen.text('encore?', 640, 420, 24, [230, 224, 232], {});
     if (t > 2.0) pen.text('a fan-made cartoon \u00b7 song by The Vandals', 640, 640, 17, [176, 172, 186], {});
   },
 };

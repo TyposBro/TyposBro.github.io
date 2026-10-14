@@ -101,22 +101,31 @@ export const SHOTS = [
   { id: 'bk-support',     from: 113.70, to: 117.80, set: 'graveyard',  note: 'hosts a support group, he is the star' },
 
   /* --------------------------------------------- outro: the addiction -- */
-  { id: 'out-mourners',   from: 117.80, to: 130.00, set: 'graveyard', note: 'crowd of mourners grows' },
-  { id: 'out-procession', from: 130.00, to: 140.20, set: 'street',    note: 'full funeral procession, brass band' },
-  { id: 'out-coffin',     from: 140.20, to: 149.48, set: 'street',    note: 'the empty coffin rattles; a cat jumps out' },
+  { id: 'out-mourners',   from: 117.80, to: 121.20, set: 'graveyard', note: 'crowd of mourners grows' },
+  { id: 'out-tears', from: 121.20, to: 124.40, set: 'graveyard', note: 'he conducts the crying like an orchestra' },
+  { id: 'out-autograph', from: 124.40, to: 127.30, set: 'graveyard', note: 'condolence cards become autograph requests' },
+  { id: 'out-encore', from: 127.30, to: 130.00, set: 'graveyard', note: 'an encore of fake grief earns applause' },
+  { id: 'out-procession', from: 130.00, to: 133.40, set: 'street',    note: 'full funeral procession, brass band' },
+  { id: 'out-solo', from: 133.40, to: 136.80, set: 'street', note: 'the drummer steals his spotlight' },
+  { id: 'out-conductor', from: 136.80, to: 140.20, set: 'street', note: 'he elbows back into the spotlight' },
+  { id: 'out-coffin',     from: 140.20, to: 144.60, set: 'street',    note: 'the empty coffin rattles; a cat jumps out' },
+  { id: 'out-cover', from: 144.60, to: 147.00, set: 'street', note: 'a suspicious mourner gets a theatrical distraction' },
+  { id: 'out-bow', from: 147.00, to: 149.48, set: 'street', note: 'he takes a bow for his grief performance' },
   { id: 'end-march',      from: 149.48, to: 155.00, set: 'street',    note: 'marches on, delighted' },
   { id: 'end-card',       from: 155.00, to: 160.99, set: 'street',    note: 'THE END' },
 ];
+
+for (let i = 0; i < SHOTS.length - 1; i++) {
+  SHOTS[i].to = SHOTS[i + 1].from;
+}
 
 export const SHOT_END = SHOTS[SHOTS.length - 1].to;
 
 /** which shot is playing at song-second t */
 export function shotAt(t) {
-  for (let i = 0; i < SHOTS.length; i++) {
-    if (t >= SHOTS[i].from && t < SHOTS[i].to) {
-      return { i, shot: SHOTS[i], t: t - SHOTS[i].from };
-    }
-  }
-  const last = SHOTS[SHOTS.length - 1];
-  return { i: SHOTS.length - 1, shot: last, t: Math.max(0, t - last.from) };
+  const time = Number.isFinite(t) ? Math.max(0, Math.min(t, SHOT_END)) : 0;
+  let i = SHOTS.length - 1;
+  while (i > 0 && time < SHOTS[i].from) i--;
+  const shot = SHOTS[i];
+  return { i, shot, t: Math.min(time - shot.from, shot.to - shot.from) };
 }

@@ -1,5 +1,5 @@
 import { W, H, setCamera } from './engine.js';
-import { drawFrame, sceneAt, TIMELINE, DURATION, BPM, BEAT } from './scenes.js';
+import { drawFrame, sceneAt, DURATION, BPM, BEAT } from './scenes.js';
 import { createPlayer } from './player.js';
 
 /* The song is "My Girlfriend's Dead" by The Vandals, played from YouTube. */

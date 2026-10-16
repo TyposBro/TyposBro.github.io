@@ -80,6 +80,11 @@
   .panel li{margin:6px 0}
   .num{font-weight:800; color:var(--accent)}
   code,.mono{background:var(--code); padding:1px 6px; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:14px}
+  table.tbl{width:100%; border-collapse:collapse; margin:16px 0; font-size:15px}
+  table.tbl th,table.tbl td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line)}
+  table.tbl th{font-size:13px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted)}
+  table.tbl td.yes{color:var(--good); font-weight:700}
+  table.tbl td.no{color:var(--bad); font-weight:700}
   dl.glossary{display:grid; grid-template-columns:1fr; gap:0; margin:0}
   dl.glossary dt{font-weight:700; margin-top:14px}
   dl.glossary dd{margin:2px 0 0; color:var(--muted)}
@@ -121,6 +126,7 @@
     <a href="#paradigm">The big idea</a>
     <a href="#pieces">Piece by piece</a>
     <a href="#tradeoffs">Trade-offs</a>
+    <a href="#free">Free tier?</a>
     <a href="#plan">The plan</a>
     <a href="#open">Open questions</a>
     <a href="#words">Word list</a>
@@ -132,18 +138,18 @@
   <!-- ============ BOTTOM LINE ============ -->
   <section id="bottom">
     <h2>The bottom line</h2>
-    <p class="lead">Short version: the move is worth doing. Rewrite the backend in TypeScript on Cloudflare Workers. Keep our Postgres database. Replace Redis with Cloudflare "Durable Objects". Keep a small Python service for the AI part.</p>
+    <p class="lead">Short version: move to Cloudflare Workers, rewritten in TypeScript. Keep our Postgres. Replace Redis with Cloudflare's per-user helper. And aim to run the whole backend on Cloudflare's <b>free tier</b>.</p>
 
     <div class="box tldr">
       <span class="label">If you read only this</span>
       <ul>
-        <li><b>We are overpaying while idle.</b> Our stack costs about <span class="num">$185–225 per month</span> before a single user shows up.</li>
+        <li><b>We are overpaying while idle.</b> The old stack costs about <span class="num">$185–225 per month</span> before a single user shows up.</li>
         <li><b>One resource is most of it.</b> The Redis-style cache costs about <span class="num">$90–120 per month</span> just to sit there.</li>
+        <li><b>Cloudflare's free tier fits almost the whole backend.</b> The app, the per-user helper, background jobs, and storage all have free plans.</li>
+        <li><b>One piece is not free.</b> Cloudflare's container host (for Python) is paid-only. Drop Python with <code>ax</code>, or host it free elsewhere.</li>
+        <li><b>The real cost is the AI tokens, not the servers.</b> Rewriting does not reduce this. Free model tiers can.</li>
         <li><b>The hard part is chat, not the rest.</b> Logins, profiles, and logs are easy to move. The live chat stream is the real puzzle.</li>
-        <li><b>Redis is not a cache here — it is plumbing.</b> We use it for locks, buffers, and history. Cloudflare's answer is one helper per user.</li>
         <li><b>TypeScript is the right target.</b> Cloudflare's TypeScript support is mature. The Python path is new and awkward.</li>
-        <li><b>Keep the Python AI service.</b> That avoids the riskiest rewrite (the AI prompt logic) and keeps a hard job off Cloudflare.</li>
-        <li><b>Do not do a blind cutover.</b> Build it all, then flip one switch — with an easy way to flip back.</li>
       </ul>
     </div>
   </section>
@@ -252,10 +258,10 @@
       </div>
 
       <div class="card">
-        <h4>The AI layer <span class="pill">Keep Python</span></h4>
+        <h4>The AI layer <span class="pill">Two options</span></h4>
         <div class="row"><span class="tag now">Today</span><span>DSPy + LiteLLM inside the main backend.</span></div>
-        <div class="row"><span class="tag next">After</span><span>A small separate Python service the Worker calls.</span></div>
-        <p>This is a deliberate choice. Porting the AI prompt logic to TypeScript is the riskiest rewrite. Keeping Python avoids it, and keeps heavy AI work off Cloudflare's tiny workers.</p>
+        <div class="row"><span class="tag next">After</span><span>A small Python service, or <code>ax</code> in TypeScript.</span></div>
+        <p>Keeping Python is the safe pick. But <code>ax</code> — a mature TypeScript library — does the same job with no heavy parts, and would drop the Python service entirely. That is the difference between "one paid host" and "fully free".</p>
       </div>
 
       <div class="card">
@@ -309,6 +315,44 @@
     </div>
   </section>
 
+  <!-- ============ FREE TIER ============ -->
+  <section id="free">
+    <h2>Can it run on the free tier?</h2>
+    <p class="lead">Mostly yes. Here is the honest breakdown of what is free and what is not.</p>
+
+    <table class="tbl">
+      <thead><tr><th>Piece</th><th>Free plan?</th></tr></thead>
+      <tbody>
+        <tr><td>The app (Cloudflare Workers)</td><td class="yes">Yes</td></tr>
+        <tr><td>The per-user helper (Durable Objects)</td><td class="yes">Yes</td></tr>
+        <tr><td>Background jobs (Queues)</td><td class="yes">Yes</td></tr>
+        <tr><td>Storage (KV, D1, R2)</td><td class="yes">Yes</td></tr>
+        <tr><td>The Postgres connector (Hyperdrive)</td><td class="yes">Yes</td></tr>
+        <tr><td>The container host (for Python)</td><td class="no">No — paid only</td></tr>
+        <tr><td>The AI model calls</td><td class="no">No — pay per use</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box good">
+      <span class="label">What the free plan gives us</span>
+      <p>The app handles about <b>100,000 requests a day</b>. The per-user helper gets about <b>100,000 calls a day</b> and <b>5 GB</b> of storage. Background jobs get about <b>3,300 a day</b>. The Postgres connector gets <b>100,000 queries a day</b>. For a small app, that is enough.</p>
+      <p>One catch: the free Worker allows only <b>10 milliseconds of computing</b> per request. Live chat is fine, because waiting on the AI is not computing. Heavy number-crunching inside a request would trip it.</p>
+    </div>
+
+    <div class="box warn">
+      <span class="label">The two things that cost money</span>
+      <ul>
+        <li><b>The Python host.</b> Cloudflare's container product is paid-only. So if we keep Python, it needs a free home somewhere else.</li>
+        <li><b>The AI tokens.</b> Every chat message costs money at the model provider. No host removes this. It is the single biggest cost. Free model tiers (Groq, Gemini, Cloudflare's own AI) can push it near zero.</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <span class="label">How we remove the Python host problem</span>
+      <p>A TypeScript library called <code>ax</code> does what DSPy does — signatures, typed output, streaming — and it has no heavy dependencies. If it works in a Worker, we drop Python entirely, and the whole backend lands on the free tier with nothing paid at all.</p>
+    </div>
+  </section>
+
   <!-- ============ PLAN ============ -->
   <section id="plan">
     <h2>What we recommend</h2>
@@ -349,7 +393,7 @@
     <ul>
       <li><b>Where does Postgres live?</b> Keep Amazon, or move to a modern cloud database (Neon or Supabase)? <em>We lean: move if it cuts the fixed cost — but keep Postgres either way.</em></li>
       <li><b>Metrics target.</b> Cloudflare's own analytics, or a bridge to our existing Grafana? <em>We lean: Cloudflare + bridge.</em></li>
-      <li><b>Where does the Python AI service run?</b> Cloudflare's containers, Fly.io, or a small Amazon box? <em>We lean: Cloudflare containers, to stay on one platform.</em></li>
+      <li><b>Keep the Python AI service, or drop it for <code>ax</code>?</b> Keeping Python is safer but needs a free host elsewhere (Cloudflare's container host is paid). <code>ax</code> is cheaper and keeps everything free. <em>We lean: prototype <code>ax</code> first — it decides this.</em></li>
       <li><b>Kakao web sign-in.</b> Does our chosen library cover it, or do we build it by hand? <em>Needs a quick check.</em></li>
       <li><b>Session-end work.</b> Run it inside the helper, or as a separate durable job? <em>We lean: inside the helper.</em></li>
     </ul>
@@ -375,6 +419,9 @@
       <dt>TypeScript</dt><dd>A language for web code with safety checks. Cloudflare supports it well. Python is the older choice here.</dd>
       <dt>Hono</dt><dd>A small TypeScript toolkit for building web apps on Workers.</dd>
       <dt>DSPy / LiteLLM</dt><dd>The Python tools that talk to the AI language models.</dd>
+      <dt>ax</dt><dd>A TypeScript library that does what DSPy does. Small, no heavy dependencies, built for edge runtimes.</dd>
+      <dt>Free tier</dt><dd>A plan that costs nothing up to a daily or monthly limit.</dd>
+      <dt>Neon</dt><dd>A hosted Postgres with a free tier. A likely new home for our database.</dd>
       <dt>Big-bang vs phased</dt><dd>Big-bang = switch everything at once. Phased = move parts over time. We build everything first, but switch with one reversible lever.</dd>
     </dl>
   </section>
@@ -382,7 +429,7 @@
 </main>
 
 <footer class="wrap">
-  <p>Prepared for the FeelFlow team. All figures are rough monthly estimates in US dollars for the Seoul region. The technical assessment is based on a read of the current backend and infrastructure code.</p>
+  <p>Prepared for the FeelFlow team. All figures are rough monthly estimates in US dollars for the Seoul region. Free-tier limits are current as of October 2026 and can change. The technical assessment is based on a read of the current backend and infrastructure code.</p>
 </footer>
 
 </body>

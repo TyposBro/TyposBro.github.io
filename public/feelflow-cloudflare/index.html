@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FeelFlow: Moving from AWS to Cloudflare Workers — Plain-English Guide</title>
+<style>
+  :root{
+    --ink:#1a1f2b; --muted:#5b6577; --line:#e3e7ee; --bg:#ffffff;
+    --soft:#f6f8fb; --accent:#4f46e5; --accent-soft:#eef0fe;
+    --good:#0f8a5f; --good-soft:#e9f7f1; --warn:#b45309; --warn-soft:#fdf3e6;
+    --bad:#b42318; --bad-soft:#fdecea; --code:#f1f3f7;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; font-size:17px;
+  }
+  header.hero{
+    background:linear-gradient(180deg,#fbfcff 0%,#ffffff 100%);
+    border-bottom:1px solid var(--line); padding:40px 20px 28px;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 20px}
+  header.hero .wrap{padding:0 20px}
+  .kicker{
+    display:inline-block; font-size:13px; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--accent); background:var(--accent-soft);
+    padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+  h1{font-size:30px; line-height:1.25; margin:0 0 10px}
+  .sub{color:var(--muted); font-size:17px; margin:0}
+  nav.toc{
+    position:sticky; top:0; z-index:10; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line);
+  }
+  nav.toc .wrap{display:flex; flex-wrap:wrap; gap:6px; padding:10px 20px}
+  nav.toc a{
+    color:var(--muted); text-decoration:none; font-size:14px; font-weight:600;
+    padding:5px 10px; border-radius:8px;
+  }
+  nav.toc a:hover{background:var(--soft); color:var(--ink)}
+  main{padding:8px 0 60px}
+  section{padding:26px 0; border-bottom:1px solid var(--line)}
+  section:last-child{border-bottom:0}
+  h2{font-size:23px; margin:0 0 6px; line-height:1.3}
+  h3{font-size:18px; margin:22px 0 6px}
+  p{margin:10px 0}
+  ul{margin:10px 0; padding-left:22px}
+  li{margin:6px 0}
+  li b{color:var(--ink)}
+  .lead{font-size:18px; color:var(--muted)}
+  .box{border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin:18px 0; background:var(--soft)}
+  .box.tldr{background:var(--accent-soft); border-color:#d7dbff}
+  .box.warn{background:var(--warn-soft); border-color:#f3d9b3}
+  .box.good{background:var(--good-soft); border-color:#c4e8d8}
+  .box h3{margin-top:0}
+  .box .label{font-weight:800; font-size:13px; letter-spacing:.04em; text-transform:uppercase; margin-bottom:6px; display:block}
+  .tldr .label{color:var(--accent)}
+  .warn .label{color:var(--warn)}
+  .good .label{color:var(--good)}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px}
+  .card{border:1px solid var(--line); border-radius:12px; padding:16px 18px; background:#fff}
+  .card h4{margin:0 0 8px; font-size:16px}
+  .card .row{display:flex; gap:8px; font-size:15px; margin:6px 0}
+  .card .tag{
+    flex:0 0 62px; font-weight:700; font-size:12px; text-transform:uppercase;
+    letter-spacing:.03em; padding-top:2px;
+  }
+  .tag.now{color:var(--bad)}
+  .tag.next{color:var(--good)}
+  .card p{margin:6px 0; font-size:15px; color:var(--muted)}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px}
+  .panel{border:1px solid var(--line); border-radius:12px; padding:14px 18px}
+  .panel h4{margin:0 0 6px; font-size:16px}
+  .panel.wins{background:var(--good-soft); border-color:#c4e8d8}
+  .panel.costs{background:var(--bad-soft); border-color:#f3c9c4}
+  .panel ul{margin:8px 0 0; padding-left:20px}
+  .panel li{margin:6px 0}
+  .num{font-weight:800; color:var(--accent)}
+  code,.mono{background:var(--code); padding:1px 6px; border-radius:6px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:14px}
+  dl.glossary{display:grid; grid-template-columns:1fr; gap:0; margin:0}
+  dl.glossary dt{font-weight:700; margin-top:14px}
+  dl.glossary dd{margin:2px 0 0; color:var(--muted)}
+  .steps{counter-reset:step; list-style:none; padding:0; margin:14px 0}
+  .steps li{position:relative; padding:12px 16px 12px 54px; border:1px solid var(--line); border-radius:12px; margin:10px 0; background:#fff}
+  .steps li::before{
+    counter-increment:step; content:counter(step); position:absolute; left:14px; top:12px;
+    width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;
+  }
+  .pill{display:inline-block; font-size:12px; font-weight:700; padding:2px 9px; border-radius:999px; background:var(--accent-soft); color:var(--accent); margin-right:6px}
+  footer{padding:26px 0 50px; color:var(--muted); font-size:14px}
+  .small{font-size:14px; color:var(--muted)}
+  @media (max-width:720px){
+    .grid,.two{grid-template-columns:1fr}
+    h1{font-size:25px}
+  }
+  @media print{
+    nav.toc{display:none}
+    body{font-size:12pt}
+    section{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">Architecture proposal · for the team</span>
+    <h1>Moving FeelFlow from AWS to Cloudflare Workers</h1>
+    <p class="sub">A plain-English guide. What we have now, what Cloudflare really is, what the move costs us, and what we recommend.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#bottom">The bottom line</a>
+    <a href="#now">Today</a>
+    <a href="#paradigm">The big idea</a>
+    <a href="#pieces">Piece by piece</a>
+    <a href="#tradeoffs">Trade-offs</a>
+    <a href="#plan">The plan</a>
+    <a href="#open">Open questions</a>
+    <a href="#words">Word list</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ BOTTOM LINE ============ -->
+  <section id="bottom">
+    <h2>The bottom line</h2>
+    <p class="lead">Short version: the move is worth doing. Rewrite the backend in TypeScript on Cloudflare Workers. Keep our Postgres database. Replace Redis with Cloudflare "Durable Objects". Keep a small Python service for the AI part.</p>
+
+    <div class="box tldr">
+      <span class="label">If you read only this</span>
+      <ul>
+        <li><b>We are overpaying while idle.</b> Our stack costs about <span class="num">$185–225 per month</span> before a single user shows up.</li>
+        <li><b>One resource is most of it.</b> The Redis-style cache costs about <span class="num">$90–120 per month</span> just to sit there.</li>
+        <li><b>The hard part is chat, not the rest.</b> Logins, profiles, and logs are easy to move. The live chat stream is the real puzzle.</li>
+        <li><b>Redis is not a cache here — it is plumbing.</b> We use it for locks, buffers, and history. Cloudflare's answer is one helper per user.</li>
+        <li><b>TypeScript is the right target.</b> Cloudflare's TypeScript support is mature. The Python path is new and awkward.</li>
+        <li><b>Keep the Python AI service.</b> That avoids the riskiest rewrite (the AI prompt logic) and keeps a hard job off Cloudflare.</li>
+        <li><b>Do not do a blind cutover.</b> Build it all, then flip one switch — with an easy way to flip back.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ TODAY ============ -->
+  <section id="now">
+    <h2>What we have today</h2>
+    <p class="lead">Today FeelFlow runs like a traditional business: we rent servers that stay switched on all day, even at 3am when nobody is using the app.</p>
+
+    <h3>The stack in plain words</h3>
+    <ul>
+      <li><b>Backend:</b> a Python web app (built with a tool called FastAPI).</li>
+      <li><b>Servers:</b> Amazon servers that run our code all the time. This is "ECS Fargate".</li>
+      <li><b>Front door:</b> a traffic director that sends requests to those servers. This is the "load balancer".</li>
+      <li><b>Database:</b> the filing cabinet that stores all our data. This is Postgres (Amazon's version is called RDS).</li>
+      <li><b>Fast scratchpad:</b> an in-memory notepad we call Redis (Amazon's version is "Valkey"). We use it for locks, live buffers, and chat history.</li>
+      <li><b>AI:</b> the part that talks to language models. Built with tools called DSPy and LiteLLM.</li>
+      <li><b>Region:</b> everything sits in one place — Seoul, Korea.</li>
+    </ul>
+
+    <div class="box warn">
+      <span class="label">The cost problem</span>
+      <p>We pay for all of this around the clock. Here is the rough monthly bill when the app is doing nothing:</p>
+      <ul>
+        <li><b>Redis/Valkey cache:</b> about <span class="num">$90–120</span> — the biggest single line, and it is idle.</li>
+        <li><b>Network exit (NAT):</b> about <span class="num">$33–43</span>.</li>
+        <li><b>Load balancer:</b> about <span class="num">$18</span>.</li>
+        <li><b>Database:</b> about <span class="num">$17</span>.</li>
+        <li><b>Servers:</b> about <span class="num">$21</span>.</li>
+      </ul>
+      <p>Roughly <b>$185–225 per month</b> that exists before any real traffic. That is the "overkill" we noticed.</p>
+    </div>
+
+    <p class="small">Note: there are two infrastructure folders in the repo. <code class="mono">cloud/</code> is the older setup. <code class="mono">cloudnew/</code> is the newer cleanup (one network exit instead of two, a GitHub-based deploy, and the cache). The newer one is actually slightly <em>more</em> expensive because of the cache.</p>
+  </section>
+
+  <!-- ============ PARADIGM ============ -->
+  <section id="paradigm">
+    <h2>The big idea: a different way of thinking</h2>
+    <p class="lead">Cloudflare Workers is not "cheaper servers". It is a different model of how code runs. This is the single most important thing to understand.</p>
+
+    <div class="box">
+      <span class="label">The one-line difference</span>
+      <p><b>Amazon:</b> you pay for a shop that keeps the lights on all night, even with no customers.</p>
+      <p><b>Cloudflare:</b> you pay for a market stall that appears the moment a customer walks up, then vanishes. Nothing is "on" by default.</p>
+    </div>
+
+    <p>Workers are tiny programs that run on Cloudflare's worldwide network. They wake up when a request arrives and stop when the request is done. Thousands of these run near the user, so responses feel fast everywhere.</p>
+
+    <h3>Why this changes everything</h3>
+    <p>Everything we rely on because "the server is still there" has to be re-thought. Here is the map:</p>
+    <ul>
+      <li><b>Work done after the reply</b> (like sending a push notification) used to just keep running. Now it must be handed to a to-do list (a "Queue") or a helper that stays alive on purpose.</li>
+      <li><b>A lock that stops two chats at once</b> used to be a shared notepad. Now the helper itself does one thing at a time — the lock is built in.</li>
+      <li><b>The live chat buffer</b> used to be in Redis. Now it lives in that same per-user helper.</li>
+      <li><b>Memory that stays warm</b> (cached settings, cached AI prompts) is gone. Each request starts fresh and must rebuild what it needs.</li>
+      <li><b>Metrics dashboards</b> need rebuilding. Cloudflare does not let us "scrape" our own app the old way.</li>
+    </ul>
+
+    <div class="box good">
+      <span class="label">The upside of the same idea</span>
+      <p>Idle costs disappear. No more capacity guessing. No more cache cluster to babysit. And the per-user helper gives us <b>strong, simple correctness</b> for chat — it removes several tricky spots in the current code.</p>
+    </div>
+  </section>
+
+  <!-- ============ PIECES ============ -->
+  <section id="pieces">
+    <h2>Piece by piece: how Cloudflare handles our app</h2>
+    <p class="lead">Each card shows what we do today and what it becomes. "Easy" means low risk. "Hard" means we must design it carefully.</p>
+
+    <div class="grid">
+
+      <div class="card">
+        <h4>Logins, profiles, emotion logs <span class="pill">Easy</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>Python web app on rented servers.</span></div>
+        <div class="row"><span class="tag next">After</span><span>TypeScript app on Workers, using a toolkit called Hono.</span></div>
+        <p>This is most of our endpoints. It is low risk. We keep the exact same web addresses so the phone app never notices.</p>
+      </div>
+
+      <div class="card">
+        <h4>Database (Postgres) <span class="pill">Keep it</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>Postgres on Amazon, reached over a direct connection.</span></div>
+        <div class="row"><span class="tag next">After</span><span>Same Postgres, reached through a Cloudflare connector.</span></div>
+        <p>We <b>keep Postgres</b>. Our data uses special Postgres features. Cloudflare's built-in database cannot do them. The connector pools connections and caches reads, which is a bonus.</p>
+      </div>
+
+      <div class="card">
+        <h4>Redis / Valkey <span class="pill">Replaced</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>A shared in-memory notepad.</span></div>
+        <div class="row"><span class="tag next">After</span><span>One helper per user (a "Durable Object").</span></div>
+        <p>We used Redis for five jobs: locks, live stream buffer, chat history cache, a session-end result, and a cooldown timer. <b>All five collapse into one helper per user.</b> That also deletes a fallback table and several race bugs.</p>
+      </div>
+
+      <div class="card">
+        <h4>Live chat streaming <span class="pill">Hard</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>A background job writes tokens to Redis. The phone reconnects to read them.</span></div>
+        <div class="row"><span class="tag next">After</span><span>The helper owns the stream and the phone tails it.</span></div>
+        <div class="row"><span class="tag now">Note</span><span>This is the highest-risk part. Build it first and test it hard.</span></div>
+      </div>
+
+      <div class="card">
+        <h4>Work after the reply <span class="pill">Re-designed</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>Fire-and-forget jobs stay running after the response.</span></div>
+        <div class="row"><span class="tag next">After</span><span>Push a reminder to a to-do list, or hand it to the helper.</span></div>
+        <p>Push notifications, history writes, and memory updates split into three buckets: short safe work, guaranteed work (Queue), and stream-owned work (helper).</p>
+      </div>
+
+      <div class="card">
+        <h4>The AI layer <span class="pill">Keep Python</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>DSPy + LiteLLM inside the main backend.</span></div>
+        <div class="row"><span class="tag next">After</span><span>A small separate Python service the Worker calls.</span></div>
+        <p>This is a deliberate choice. Porting the AI prompt logic to TypeScript is the riskiest rewrite. Keeping Python avoids it, and keeps heavy AI work off Cloudflare's tiny workers.</p>
+      </div>
+
+      <div class="card">
+        <h4>Login security <span class="pill">Easy</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>Google, Apple, and Kakao sign-in, plus tokens.</span></div>
+        <div class="row"><span class="tag next">After</span><span>Same, using standard TypeScript libraries.</span></div>
+        <p>We <b>keep the same secret key and the same database</b>. That means the old and new systems trust each other's logins. That is what makes a safe switch-over possible.</p>
+      </div>
+
+      <div class="card">
+        <h4>Metrics and monitoring <span class="pill">Rebuilt</span></h4>
+        <div class="row"><span class="tag now">Today</span><span>Our app exposes numbers that Grafana reads every 15 seconds.</span></div>
+        <div class="row"><span class="tag next">After</span><span>Cloudflare pushes numbers out; Grafana reads them there.</span></div>
+        <p>Dashboards and alerts are work we must redo. We should set this up early, not last.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ TRADEOFFS ============ -->
+  <section id="tradeoffs">
+    <h2>What we gain, what it costs</h2>
+    <p class="lead">No migration is free. Here is the honest balance sheet.</p>
+
+    <div class="two">
+      <div class="panel wins">
+        <h4>What gets better</h4>
+        <ul>
+          <li><b>Idle cost gone.</b> No paying for servers or a cache cluster at night.</li>
+          <li><b>Fewer moving parts.</b> No cache cluster to run, no server capacity to guess.</li>
+          <li><b>Fewer bugs.</b> The per-user helper removes lock races and a fallback table.</li>
+          <li><b>Faster everywhere.</b> Code runs near the user, worldwide.</li>
+          <li><b>No data-transfer fees.</b> Cloudflare does not charge for outbound data.</li>
+        </ul>
+      </div>
+      <div class="panel costs">
+        <h4>What gets harder</h4>
+        <ul>
+          <li><b>No shared memory.</b> Every cached value must be rebuilt per request or stored.</li>
+          <li><b>Live streams bill by time.</b> While a phone stays connected, the helper stays awake and costs money.</li>
+          <li><b>New limits to respect.</b> Small memory, a small number of open connections, a time cap per request.</li>
+          <li><b>Different testing tools.</b> Our Python test setup must be rebuilt for TypeScript.</li>
+          <li><b>One extra service.</b> The Python AI service is a second thing to run and watch.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box">
+      <span class="label">Where the money actually lands</span>
+      <p>We would delete the cache (<span class="num">$90–120</span>), the network exit (<span class="num">$33–43</span>), the load balancer (<span class="num">$18</span>), and a server (<span class="num">$21</span>). The database stays, so a small fixed cost remains. Net: likely a fraction of today's bill, with a new "per-use" cost for live streams.</p>
+    </div>
+  </section>
+
+  <!-- ============ PLAN ============ -->
+  <section id="plan">
+    <h2>What we recommend</h2>
+    <p class="lead">The agreed direction is a full rewrite in TypeScript. Here is how to do it without gambling the app.</p>
+
+    <h3>The target, in one line</h3>
+    <p><b>TypeScript Worker (Hono) + our Postgres through the Cloudflare connector + one helper per user (replacing Redis) + a to-do list for background work + a small Python service for AI.</b></p>
+
+    <ol class="steps">
+      <li><b>Prove the two risky parts first.</b> Build the per-user helper and the database connector against our real Postgres. If these work, the rest is mostly mechanical.</li>
+      <li><b>Freeze the web contract.</b> Keep every web address and the live-stream format byte-for-byte identical. The phone app then needs zero changes.</li>
+      <li><b>Share the database and the login secret.</b> Old and new systems read the same data and trust the same logins. This makes switching safe.</li>
+      <li><b>Build in this internal order.</b> Logins and database first, then normal features, then the live chat stream last — because chat carries all the new ideas.</li>
+      <li><b>Switch with one lever.</b> When everything is built, flip one routing switch. If anything is wrong, flip it back. No data is lost, because both sides share the database.</li>
+      <li><b>Clean up after it soaks.</b> Once the new path has run well for a while, turn off the old servers and the cache.</li>
+    </ol>
+
+    <div class="box warn">
+      <span class="label">A caution about "big-bang"</span>
+      <p>The plan above <em>builds</em> everything before switching — that is the agreed style. But the switch itself should be one reversible lever, not a leap of faith.</p>
+      <p>If we flip everything live while also debugging the live-stream helper, the database connector, and the login edge cases at the same time, a bad night can take chat down for real users. Sharing the database and the login secret turns "big-bang" into "build it all, then flip a switch — and flip back if needed". That safety net is cheap. Please use it.</p>
+    </div>
+
+    <h3>The five hardest jobs (and how we lower the risk)</h3>
+    <ul>
+      <li><b>1. Live streams that survive a dropped phone.</b> Build and test the helper before porting anything else. Lock the stream format with saved samples.</li>
+      <li><b>2. The lock and "end of session" logic.</b> Model it as one clear state machine inside the helper. The helper's built-in ordering removes the old races.</li>
+      <li><b>3. Special database queries.</b> Some reports use Postgres-only tricks. Port those as raw queries and test against a real database.</li>
+      <li><b>4. Connection pooling rules.</b> The connector keeps connections short. Keep our database transactions short and test under load.</li>
+      <li><b>5. Keeping logins identical.</b> Test each sign-in provider and the exact cookie settings. Shares the same secret and database with the old service.</li>
+    </ul>
+  </section>
+
+  <!-- ============ OPEN QUESTIONS ============ -->
+  <section id="open">
+    <h2>Open questions for the team</h2>
+    <p class="lead">These need a decision from a human. Each one has our recommendation.</p>
+    <ul>
+      <li><b>Where does Postgres live?</b> Keep Amazon, or move to a modern cloud database (Neon or Supabase)? <em>We lean: move if it cuts the fixed cost — but keep Postgres either way.</em></li>
+      <li><b>Metrics target.</b> Cloudflare's own analytics, or a bridge to our existing Grafana? <em>We lean: Cloudflare + bridge.</em></li>
+      <li><b>Where does the Python AI service run?</b> Cloudflare's containers, Fly.io, or a small Amazon box? <em>We lean: Cloudflare containers, to stay on one platform.</em></li>
+      <li><b>Kakao web sign-in.</b> Does our chosen library cover it, or do we build it by hand? <em>Needs a quick check.</em></li>
+      <li><b>Session-end work.</b> Run it inside the helper, or as a separate durable job? <em>We lean: inside the helper.</em></li>
+    </ul>
+  </section>
+
+  <!-- ============ GLOSSARY ============ -->
+  <section id="words">
+    <h2>Word list (plain meanings)</h2>
+    <p class="lead">Every technical word used above, in one line.</p>
+    <dl class="glossary">
+      <dt>Postgres</dt><dd>The database. A filing cabinet that stores all our data safely.</dd>
+      <dt>Redis / Valkey</dt><dd>A super-fast scratchpad kept in memory. We used it for locks, live buffers, and history.</dd>
+      <dt>ECS Fargate</dt><dd>Amazon servers that run our code all the time.</dd>
+      <dt>Load balancer</dt><dd>The front door that sends web traffic to the right server.</dd>
+      <dt>NAT gateway</dt><dd>A paid exit door that lets our servers reach the internet.</dd>
+      <dt>Cloudflare Workers</dt><dd>Tiny programs that run on Cloudflare's global network. They wake only when a request arrives.</dd>
+      <dt>Durable Object</dt><dd>A small helper that holds one user's data and does one thing at a time, in order. Like a dedicated clerk per customer.</dd>
+      <dt>Hyperdrive</dt><dd>Cloudflare's connector to a normal Postgres. It pools connections and caches reads.</dd>
+      <dt>D1</dt><dd>Cloudflare's own built-in database. We recommend <b>not</b> using it — it cannot do what our data needs.</dd>
+      <dt>Queue</dt><dd>A to-do list that survives crashes. Work on it is retried until it is done.</dd>
+      <dt>SSE (Server-Sent Events)</dt><dd>A one-way live stream. The server keeps pushing text updates to the phone.</dd>
+      <dt>CPU time</dt><dd>The seconds the code is actually computing — not the time spent waiting for answers.</dd>
+      <dt>TypeScript</dt><dd>A language for web code with safety checks. Cloudflare supports it well. Python is the older choice here.</dd>
+      <dt>Hono</dt><dd>A small TypeScript toolkit for building web apps on Workers.</dd>
+      <dt>DSPy / LiteLLM</dt><dd>The Python tools that talk to the AI language models.</dd>
+      <dt>Big-bang vs phased</dt><dd>Big-bang = switch everything at once. Phased = move parts over time. We build everything first, but switch with one reversible lever.</dd>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Prepared for the FeelFlow team. All figures are rough monthly estimates in US dollars for the Seoul region. The technical assessment is based on a read of the current backend and infrastructure code.</p>
+</footer>
+
+</body>
+</html>
